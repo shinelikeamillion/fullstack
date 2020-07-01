@@ -3,14 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 const Button = ({ label, action }) => <button onClick={action}>{label}</button>
-const Statics = ({ good, neutral, bad }) => (
-  <>
+const Statics = ({ good, neutral, bad }) => {
+  const sum = good + neutral + bad
+  return <>
     <h2>statistics</h2>
     <p>good {good}</p>
     <p>neutral {neutral}</p>
     <p>bad {bad}</p>
+    <p>all {sum}</p>
+    <p>average {sum === 0 ? 0 : ((good * 1 + neutral * 0 + bad * -1) / sum)}</p>
+    <p>positive {sum === 0 ? 0 : (good / sum)}</p>
   </>
-);
+}
+
 
 const App = () => {
   const [good, setGood] = useState(0)
