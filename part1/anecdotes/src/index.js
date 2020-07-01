@@ -14,17 +14,25 @@ const anecdotes = [
 const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
+  const [mostVote, setMostVote] = useState(0)
+
+  // 返回一个方法（注：事件处理被定义为 function call）
+  const vote = (selected) => () => {
+    const copy = [...votes]
+    const vote = copy[selected] += 1
+    if (vote > copy[mostVote]) setMostVote(selected)
+    setVotes(copy)
+  }
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
-      <button onClick={() => {
-        const copy = [...votes]
-        copy[selected] += 1
-        setVotes(copy)
-      }}>vote</button>
+      <button onClick={vote(selected)}>vote</button>
       <button onClick={() => { setSelected(Math.floor(Math.random() * anecdotes.length)) }}>next anecdote</button>
+      <h2>Anecdote with the most votes</h2>
+      <p>{anecdotes[mostVote]}</p>
     </div>
   )
 }
