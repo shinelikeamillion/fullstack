@@ -7,12 +7,20 @@ const Statics = ({ good, neutral, bad }) => {
   const sum = good + neutral + bad
   return <>
     <h2>statistics</h2>
-    <p>good {good}</p>
-    <p>neutral {neutral}</p>
-    <p>bad {bad}</p>
-    <p>all {sum}</p>
-    <p>average {sum === 0 ? 0 : ((good * 1 + neutral * 0 + bad * -1) / sum)}</p>
-    <p>positive {sum === 0 ? 0 : (good / sum)}</p>
+    {
+      sum === 0
+        ?
+        <p>No feedback given</p>
+        :
+        <>
+          <p>good {good}</p>
+          <p>neutral {neutral}</p>
+          <p>bad {bad}</p>
+          <p>all {sum}</p>
+          <p>average {(good * 1 + neutral * 0 + bad * -1) / sum}</p>
+          <p>positive {good / sum} %</p>
+        </>
+    }
   </>
 }
 
