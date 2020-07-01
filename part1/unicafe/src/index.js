@@ -3,26 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 const Button = ({ label, action }) => <button onClick={action}>{label}</button>
-const Statics = ({ good, neutral, bad }) => {
+const Statistics = ({ good, neutral, bad }) => {
   const sum = good + neutral + bad
   return <>
-    <h2>statistics</h2>
+    <h2>Statistics</h2>
     {
       sum === 0
         ?
         <p>No feedback given</p>
         :
         <>
-          <p>good {good}</p>
-          <p>neutral {neutral}</p>
-          <p>bad {bad}</p>
-          <p>all {sum}</p>
-          <p>average {(good * 1 + neutral * 0 + bad * -1) / sum}</p>
-          <p>positive {good / sum} %</p>
+          <Statistic label='good' statistic={good} />
+          <Statistic label='neutral' statistic={neutral} />
+          <Statistic label='bad' statistic={bad} />
+          <Statistic label='average' statistic={(good * 1 + neutral * 0 + bad * -1) / sum} />
+          <Statistic label='positive' statistic={(good / sum) + ' %'} />
         </>
     }
   </>
 }
+const Statistic = ({ label, statistic }) => <p>{label} {statistic}</p>
 
 
 const App = () => {
@@ -35,7 +35,7 @@ const App = () => {
     <Button label='good' action={() => { setGood(good + 1) }} />
     <Button label='neutral' action={() => { setNeutral(neutral + 1) }} />
     <Button label='bad' action={() => { setBad(bad + 1) }} />
-    <Statics good={good} neutral={neutral} bad={bad} />
+    <Statistics good={good} neutral={neutral} bad={bad} />
   </div>
 }
 
