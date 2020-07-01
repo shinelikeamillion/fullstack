@@ -12,17 +12,19 @@ const Statistics = ({ good, neutral, bad }) => {
         ?
         <p>No feedback given</p>
         :
-        <>
-          <Statistic label='good' statistic={good} />
-          <Statistic label='neutral' statistic={neutral} />
-          <Statistic label='bad' statistic={bad} />
-          <Statistic label='average' statistic={(good * 1 + neutral * 0 + bad * -1) / sum} />
-          <Statistic label='positive' statistic={(good / sum) + ' %'} />
-        </>
+        <table>
+          <tbody>
+            <Statistic label='good' statistic={good} />
+            <Statistic label='neutral' statistic={neutral} />
+            <Statistic label='bad' statistic={bad} />
+            <Statistic label='average' statistic={(good * 1 + neutral * 0 + bad * -1) / sum} />
+            <Statistic label='positive' statistic={(good / sum) + ' %'} />
+          </tbody>
+        </table>
     }
   </>
 }
-const Statistic = ({ label, statistic }) => <p>{label} {statistic}</p>
+const Statistic = ({ label, statistic }) => <tr><td>{label}</td><td>{statistic}</td></tr>
 
 
 const App = () => {
