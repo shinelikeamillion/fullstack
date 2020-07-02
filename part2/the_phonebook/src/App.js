@@ -36,15 +36,28 @@ const App = () => {
 
     const addPerson = () => {
         if (!newName || !newNumber) return
-        if (persons.map(person => person.name).includes(newName)) {
-            alert(`${newName} is already added to phonebook`)
-            return
-        }
+
         const personObj = {
             name: newName,
             number: newNumber
         }
-        setPersons(persons.concat(personObj))
+
+        if (persons.map(person => person.name).includes(newName)) {
+            if (window.confirm(`${newName} is already added to phonebook, replace the older number with a new one?`)) {
+                let id = persons.map(person => person.name).indexOf(newName);
+                axios
+                    .put(`http://localhost:3001/persons/${id}`, personObj)
+                    .then(response => {
+                        setPersons(persons.map(person => person.name !== newName ? person : response.data))
+                    })
+            }
+        } else {
+            axios
+                .post('http://localhost:3001/persons', personObj)
+                .then(response => {
+                    setPersons(persons.concat(response.data))
+                })
+        }
     }
 
     const submit = (event) => {
@@ -66,7 +79,7 @@ const App = () => {
         <div>
             <h2>Phonebook</h2>
             <Filter filter={newFilter} onChange={(event) => { setNewFilter(event.target.value) }} />
-            <h2>Phonebook</h2>
+            <h2>Add a new</h2>
             <PersonForm submit={submit} name={newName} number={newNumber} onNameChange={(event) => { setNewName(event.target.value) }} onNumberChange={(event) => { setNewNumber(event.target.value) }} />
             <NumbersTable filter={newFilter} persons={persons} />
         </div>
