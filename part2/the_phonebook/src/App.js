@@ -84,7 +84,7 @@ const App = () => {
     const deleteById = async (id) => {
         await phonebookService
             .deleteById(id)
-            .then(_ => setPersons(persons.filter(p => p.id != id)))
+            .then(_ => setPersons(persons.filter(p => p.id !== id)))
             .catch(_ => {
                 console.log('fail')
             })
