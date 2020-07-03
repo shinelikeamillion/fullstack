@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react'
 import phonebookService from './services/phonebook'
 
 const Filter = ({ filter, onChange }) =>
-    <p>filter shown with: <input value={filter} onChange={onChange} /> </p>
+    <>
+        <div>filter shown with: </div>
+        <input value={filter} onChange={onChange} />
+    </>
 
 const PersonForm = ({ submit, name, number, onNameChange, onNumberChange }) =>
     <form onSubmit={submit}>
-        <div> name: <input value={name} onChange={onNameChange} /> </div>
-        <div> phone: <input value={number} onChange={onNumberChange} /> </div>
-        <div> <button type="submit">add</button> </div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>name: </td>
+                    <td><input value={name} onChange={onNameChange} /></td>
+                </tr>
+                <tr>
+                    <td>phone: </td>
+                    <td><input value={number} onChange={onNumberChange} /></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">add</button>
     </form>
 
 const NumbersTableRow = ({ person, deleteById }) =>
@@ -18,7 +31,7 @@ const NumbersTableRow = ({ person, deleteById }) =>
         <td>
             <button onClick={() => {
                 if (window.confirm(`Delete ${person.name} ?`)) {
-                    deleteById(person.id)
+                    deleteById(person)
                 }
             }}>delete</button>
         </td>
@@ -27,7 +40,10 @@ const NumbersTable = ({ filter, persons, deleteById }) => {
     const shownPersons = persons.filter(person => person.name.includes(filter) || person.number.includes(filter));
     return <>
         <h2>Numbers</h2>
-        <table>
+        <table className='numbers_table'>
+            <thead>
+                <tr><td>Name</td><td>Number</td><td></td></tr>
+            </thead>
             <tbody>
                 {shownPersons.map(person => <NumbersTableRow key={person.name} person={person} deleteById={deleteById} />)}
             </tbody>
@@ -35,11 +51,31 @@ const NumbersTable = ({ filter, persons, deleteById }) => {
     </>
 }
 
+const Notification = ({ message }) => message ? <div className={message.isError ? 'error' : 'notification'}>{message.content}</div> : null
+
+const Footer = () => {
+    const footerStyle = {
+        marginTop: 20,
+        textAlign: 'center',
+        color: '',
+        fontStyle: 'italic',
+        fontSize: 16
+    }
+    return (
+        <div style={footerStyle}>
+            <em>phonebook app, sean_matro @ 2020</em>
+        </div>
+    )
+}
+
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
+    const [message, setNewMsg] = useState({
+        content: 'is rest'
+    })
 
     const submit = (event) => {
         event.preventDefault()
@@ -65,6 +101,7 @@ const App = () => {
                 setPersons(persons.concat(person))
                 setNewName('')
                 setNewNumber('')
+                showNotification(`Note that the information of ${person.name} added`)
             })
     }
 
@@ -73,33 +110,59 @@ const App = () => {
         const changePerson = { ...person, number: newNumber }
         await phonebookService
             .update(changePerson.id, changePerson)
-            .then(updatedPerosn => setPersons(persons.map(person => person.name !== newName ? person : updatedPerosn)))
+            .then(updatedPerson => {
+                setPersons(persons.map(person => person.name !== newName ? person : updatedPerson))
+                showNotification(`Note that the information of ${updatedPerson.name} updated`)
+            })
     }
 
     const fetchPersons = async () => await
         phonebookService
             .getAll()
-            .then(initialPhonebook => setPersons(initialPhonebook))
-
-    const deleteById = async (id) => {
-        await phonebookService
-            .deleteById(id)
-            .then(_ => setPersons(persons.filter(p => p.id !== id)))
-            .catch(_ => {
-                console.log('fail')
+            .then(initialPhonebook => {
+                // for test delete unsaved user
+                // const personObj = {
+                //     name: 'testuser',
+                //     number: '011-911'
+                // }
+                // setPersons(initialPhonebook.concat(personObj))
+                setPersons(initialPhonebook)
             })
+
+    const deleteById = async (person) => {
+        await phonebookService
+            .deleteById(person.id)
+            .then(_ => {
+                setPersons(persons.filter(p => p.id !== person.id))
+                showNotification(`Note that the information of ${person.name} deleted`)
+            })
+            .catch(_ => {
+                showErrorMsg(`${person.name} was already removed from server.`)
+                setPersons(persons.filter(p => p.id !== person.id))
+            })
+    }
+
+    const showNotification = (content) => {
+        setNewMsg({ content: `Note that ${content}` })
+        setTimeout(_ => setNewMsg(null), 3000)
+    }
+    const showErrorMsg = (content) => {
+        setNewMsg({ isError: true, content: `Note that ${content}` })
+        setTimeout(_ => setNewMsg(null), 3000)
     }
 
     // useEffect function must return a cleanup function or nothing
     useEffect(() => { fetchPersons() }, []);
 
     return (
-        <div>
-            <h2>Phonebook</h2>
+        <div className='phonebook'>
+            <h1>Phonebook</h1>
+            <Notification message={message} />
             <Filter filter={newFilter} onChange={(event) => { setNewFilter(event.target.value) }} />
             <h2>Add a new</h2>
             <PersonForm submit={submit} name={newName} number={newNumber} onNameChange={(event) => { setNewName(event.target.value) }} onNumberChange={(event) => { setNewNumber(event.target.value) }} />
             <NumbersTable filter={newFilter} persons={persons} deleteById={deleteById} />
+            <Footer />
         </div>
     )
 }
