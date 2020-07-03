@@ -37,7 +37,9 @@ const NumbersTableRow = ({ person, deleteById }) =>
         </td>
     </tr>
 const NumbersTable = ({ filter, persons, deleteById }) => {
-    const shownPersons = persons.filter(person => person.name.includes(filter) || person.number.includes(filter));
+    const shownPersons = persons.filter(person =>
+        person.name.toLowerCase().includes(filter.toLowerCase())
+        || person.number.toLowerCase().includes(filter.toLowerCase()));
     return <>
         <h2>Numbers</h2>
         <table className='numbers_table'>
