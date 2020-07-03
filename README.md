@@ -9,4 +9,8 @@ fullstack training course from
     * [courseinfo](/part1/courseinfo)
     * [unicafe](/part1/unicafe)
     * [anecdotes](/part1/anecdotes)
+* [part2](/part2)
+    * [courseinfo](/part2/courseinfo)
+    * [unicafe](/part2/data_for_countries)
+    * [anecdotes](/part2/the_phonebook)
 
