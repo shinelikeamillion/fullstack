@@ -1,0 +1,39 @@
+### get all persons
+GET http://localhost:3001/api/persons
+
+### get info
+GET http://localhost:3001/api/persons/info
+
+### get by id
+GET http://localhost:3001/api/persons/73872
+
+### delete by id
+DELETE http://localhost:3001/api/persons/71279
+
+### create a new one, or duplicate
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "test one",
+    "number": {{$randomInt 10 200}}
+}
+
+
+### create but missing name
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "number": 881230
+}
+
+### create but missing number
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "test one"
+}
+
+
