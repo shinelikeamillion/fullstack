@@ -4,6 +4,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static('build'))
 
 /* more info about morgan
 https://github.com/expressjs/morgan
@@ -47,8 +48,6 @@ const personsInfo = `
 <p>Phonebook has info for ${persons.length} people</p>
 <p>${Date()}</p>
 `
-
-app.get('/', (_, res) => res.send('<h1>Hello World!</h1>'))
 
 app.get('/api/persons', (_, res) => res.json(persons))
 
