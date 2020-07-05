@@ -76,9 +76,10 @@ app.delete('/api/persons/:id', (req, res) => {
 app.put('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     const person = persons.find(n => n.id === id)
-    if (person) {
-        persons = persons.filter(p => p.id !== id)
-        res.status(200).json(person)
+    if (person && req.body) {
+        const updatedPerson = { ...req.body, id: generateId }
+        persons = persons.map(p => p.id === id ? updatedPerson : p)
+        res.status(200).json(updatedPerson)
     } else {
         res.status(404).json({ 'error': 'person not found' })
     }
