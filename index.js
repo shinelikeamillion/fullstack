@@ -1,18 +1,20 @@
 const express = require('express')
-const morgan = require('morgan')
-const { token } = require('morgan')
 const cors = require('cors')
 const app = express()
+
+app.use(cors())
+app.use(express.json())
 
 /* more info about morgan
 https://github.com/expressjs/morgan
 */
-app.use(cors())
-app.use(express.json())
-// app.use(morgan('tiny'))
-morgan.token('body', (req, res) => JSON.stringify(req.body))
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
-
+if (process.env.NODE_ENV === 'development') {
+    const morgan = require('morgan')
+    const { token } = require('morgan')
+    // app.use(morgan('tiny'))
+    morgan.token('body', (req, res) => JSON.stringify(req.body))
+    app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+}
 let persons = [
     {
         "name": "Arto Hellas",
