@@ -8,7 +8,7 @@ GET http://localhost:3001/api/persons/info
 GET http://localhost:3001/api/persons/73872
 
 ### delete by id
-DELETE http://localhost:3001/api/persons/71279
+DELETE http://localhost:3001/api/persons/5
 
 ### create a new one, or duplicate
 POST http://localhost:3001/api/persons
