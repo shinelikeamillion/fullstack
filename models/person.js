@@ -12,15 +12,15 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 
 const personSchema = new mongoose.Schema({
     name: {
-        unique: [true, 'person name must be unique'],
+        unique: [true, 'must be unique'],
         type: String,
-        minlength: [3, 'person name minimum length is 3'],
-        required: [true, 'person name missing']
+        minlength: [3, 'minimum length is 3'],
+        required: [true, 'missing']
     },
     number: {
         type: String,
-        required: [true, 'person name missing'],
-        minlength: [8, 'person name minimum length is 8']
+        required: [true, 'missing'],
+        minlength: [8, 'minimum length is 8']
     },
 })
 
