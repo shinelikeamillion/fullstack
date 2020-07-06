@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
-    console.log('Please provide the password as an argument: node mongo.js <password>')
-    process.exit(1)
+  console.log('Please provide the password as an argument: node mongo.js <password>')
+  process.exit(1)
 }
 
 const password = process.argv[2]
@@ -13,74 +13,74 @@ const uri =
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+  name: String,
+  number: String,
 })
 
 const Person = mongoose.model('Person', personSchema)
 
-if (process.argv.length == 3) {
-    // Person.find({}).then(
-    //     persons => {
-    //         console.log('phonebook: ')
-    //         persons.map(person => {
-    //             console.log(person.name, person.number)
-    //         })
-    //         mongoose.connection.close()
-    //     }
-    // )
-    (async _ => {
-        let p = await Person.find({ name: 'MongoDb is confusing' })
-        console.log(p)
-    })();
-    (async _ => {
-        let p = await Person.findById('5f01e1a9d721d8b6469d1b04')
-        console.log(p)
-    })()
-} else if (process.argv.length == 5) {
-    const name = process.argv[3]
-    const number = process.argv[4]
-    const person = new Person({ name, number })
-    person.save().then(
-        _ => {
-            console.log(`added ${name} number ${number} to phonebook`)
-            mongoose.connection.close()
-        }
-    )
+if (process.argv.length === 3) {
+  // Person.find({}).then(
+  //     persons => {
+  //         console.log('phonebook: ')
+  //         persons.map(person => {
+  //             console.log(person.name, person.number)
+  //         })
+  //         mongoose.connection.close()
+  //     }
+  // )
+  (async () => {
+    let p = await Person.find({ name: 'MongoDb is confusing' })
+    console.log(p)
+  })();
+  (async () => {
+    let p = await Person.findById('5f01e1a9d721d8b6469d1b04')
+    console.log(p)
+  })()
+} else if (process.argv.length === 5) {
+  const name = process.argv[3]
+  const number = process.argv[4]
+  const person = new Person({ name, number })
+  person.save().then(
+    () => {
+      console.log(`added ${name} number ${number} to phonebook`)
+      mongoose.connection.close()
+    }
+  )
 }
 
 
-const initPersons = _ => {
+// const initPersons = _ => {
 
-    const persons = [
-        {
-            "name": "Arto Hellas",
-            "number": "040-123456",
-        },
-        {
-            "name": "Ada Lovelace",
-            "number": "39-44-5323523",
-        },
-        {
-            "name": "Dan Abramov",
-            "number": "12-43-234345",
-        },
-        {
-            "name": "rw",
-            "number": "23",
-        },
-        {
-            "name": "rw4",
-            "number": "23",
-        }
-    ]
-    persons.forEach(p => {
-        const person = new Person({ ...p })
-        person.save().then(
-            _ => {
-                console.log('person saved')
-                mongoose.connection.close()
-            }
-        )
-    })
-}
+//   const persons = [
+//     {
+//       'name': 'Arto Hellas',
+//       'number': '040-123456',
+//     },
+//     {
+//       'name': 'Ada Lovelace',
+//       'number': '39-44-5323523',
+//     },
+//     {
+//       'name': 'Dan Abramov',
+//       'number': '12-43-234345',
+//     },
+//     {
+//       'name': 'rw',
+//       'number': '23',
+//     },
+//     {
+//       'name': 'rw4',
+//       'number': '23',
+//     }
+//   ]
+//   persons.forEach(p => {
+//     const person = new Person({ ...p })
+//     person.save().then(
+//       _ => {
+//         console.log('person saved')
+//         mongoose.connection.close()
+//       }
+//     )
+//   })
+// }
