@@ -103,6 +103,9 @@ const App = () => {
                 setNewNumber('')
                 showNotification(`Note that the information of ${person.name} added`)
             })
+            .catch(error => {
+                showErrorMsg(error.response.data.message)
+            })
     }
 
     const update = async () => {
@@ -114,6 +117,9 @@ const App = () => {
                 setPersons(persons.map(person => person.name !== newName ? person : updatedPerson))
                 showNotification(`Note that the information of ${updatedPerson.name} updated`)
             })
+            .catch(error => {
+                showErrorMsg(error.response.data.message)
+            })
     }
 
     const fetchPersons = async () => await
@@ -121,6 +127,9 @@ const App = () => {
             .getAll()
             .then(initialPhonebook => {
                 setPersons(initialPhonebook)
+            })
+            .catch(error => {
+                showErrorMsg(error.response.data.message)
             })
 
     const deleteById = async (person) => {
@@ -141,7 +150,7 @@ const App = () => {
         setTimeout(_ => setNewMsg(null), 3000)
     }
     const showErrorMsg = (content) => {
-        setNewMsg({ isError: true, content: `Note that ${content}` })
+        setNewMsg({ isError: true, content: `${content}` })
         setTimeout(_ => setNewMsg(null), 3000)
     }
 
