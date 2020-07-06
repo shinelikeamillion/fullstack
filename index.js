@@ -79,7 +79,7 @@ app.post('/api/persons', async (req, res, next) => {
     })
     person.save().then(
         savedPerson => {
-            res.json(savedPerson)
+            res.json(savedPerson.toJSON())
         }
     ).catch(error => next(error))
 })

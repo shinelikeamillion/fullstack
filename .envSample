@@ -1,0 +1,2 @@
+MONGODE_URI=mongodb+srv://USER:PASSWORD@cluster0.64vrt.mongodb.net/DB_NAME?retryWrites=true&w=majority
+PORT=PORT
