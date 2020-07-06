@@ -5,11 +5,19 @@ GET http://localhost:3001/api/persons
 GET http://localhost:3001/api/persons/info
 
 ### get by id
-GET http://localhost:3001/api/persons/73872
+GET http://localhost:3001/api/persons/5f01e1a9
 
 ### delete by id
-DELETE http://localhost:3001/api/persons/5
+DELETE http://localhost:3001/api/persons/5f020ea9eabe31bd453349df
 
+### create a new one, or duplicate
+PUT http://localhost:3001/api/persons/5f01e1a9d721d8b6469d1b05
+Content-Type: application/json
+
+{
+    "name": "rw",
+    "number": {{$randomInt 10 200}}
+}
 ### create a new one, or duplicate
 POST http://localhost:3001/api/persons
 Content-Type: application/json
@@ -33,7 +41,17 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name": "test one"
+    "name": "test one",
+    "number": ""
+}
+
+### unkonwnEndpoint
+POST http://localhost:3001/api/personss
+Content-Type: application/json
+
+{
+    "name": "test one",
+    "number": ""
 }
 
 

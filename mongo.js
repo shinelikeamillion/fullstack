@@ -20,15 +20,23 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema)
 
 if (process.argv.length == 3) {
-    Person.find({}).then(
-        persons => {
-            console.log('phonebook: ')
-            persons.map(person => {
-                console.log(person.name, person.number)
-            })
-            mongoose.connection.close()
-        }
-    )
+    // Person.find({}).then(
+    //     persons => {
+    //         console.log('phonebook: ')
+    //         persons.map(person => {
+    //             console.log(person.name, person.number)
+    //         })
+    //         mongoose.connection.close()
+    //     }
+    // )
+    (async _ => {
+        let p = await Person.find({ name: 'MongoDb is confusing' })
+        console.log(p)
+    })();
+    (async _ => {
+        let p = await Person.findById('5f01e1a9d721d8b6469d1b04')
+        console.log(p)
+    })()
 } else if (process.argv.length == 5) {
     const name = process.argv[3]
     const number = process.argv[4]
