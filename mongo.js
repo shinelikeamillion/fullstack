@@ -7,8 +7,7 @@ if (process.argv.length < 3) {
 
 const password = process.argv[2]
 const dbname = 'db_personbook'
-const uri =
-    `mongodb+srv://user0:${password}@cluster0.64vrt.mongodb.net/${dbname}?retryWrites=true&w=majority`
+const uri = `mongodb+srv://user0:${password}@cluster0.64vrt.mongodb.net/${dbname}?retryWrites=true&w=majority`
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -30,11 +29,11 @@ if (process.argv.length === 3) {
   //     }
   // )
   (async () => {
-    let p = await Person.find({ name: 'MongoDb is confusing' })
+    const p = await Person.find({ name: 'MongoDb is confusing' })
     console.log(p)
   })();
   (async () => {
-    let p = await Person.findById('5f01e1a9d721d8b6469d1b04')
+    const p = await Person.findById('5f01e1a9d721d8b6469d1b04')
     console.log(p)
   })()
 } else if (process.argv.length === 5) {
@@ -45,10 +44,9 @@ if (process.argv.length === 3) {
     () => {
       console.log(`added ${name} number ${number} to phonebook`)
       mongoose.connection.close()
-    }
+    },
   )
 }
-
 
 // const initPersons = _ => {
 

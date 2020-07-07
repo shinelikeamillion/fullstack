@@ -1,38 +1,42 @@
 module.exports = {
-  'env': {
-    'node': true,
-    'commonjs': true,
-    'es2020': true
+  env: {
+    node: true,
+    commonjs: true,
+    es2020: true,
   },
-  'extends': 'eslint:recommended',
-  'parserOptions': {
-    'ecmaVersion': 11
+  // 'extends': 'eslint:recommended',
+  extends: 'airbnb',
+  parserOptions: {
+    ecmaVersion: 11,
   },
-  'rules': {
-    'indent': [
+  rules: {
+    indent: [
       'error',
-      2
+      2,
     ],
     'linebreak-style': [
       'error',
-      'unix'
+      'unix',
     ],
-    'quotes': [
+    quotes: [
       'error',
-      'single'
+      'single',
     ],
-    'semi': [
+    semi: [
       'error',
-      'never'
+      'never',
     ],
-    'eqeqeq': 'error',
+    eqeqeq: 'error',
     'no-trailing-spaces': 'error',
     'object-curly-spacing': [
-      'error', 'always'
+      'error', 'always',
     ],
     'arrow-spacing': [
-      'error', { 'before': true, 'after': true }
+      'error', { before: true, after: true },
     ],
-    'no-console': 0
-  }
+    'no-console': 0,
+    'no-underscore-dangle': [2, { allow: ['_id', '__v'] }],
+    'import/no-extraneous-dependencies': [
+      'error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
+  },
 }

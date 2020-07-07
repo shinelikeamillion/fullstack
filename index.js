@@ -1,28 +1,30 @@
 const express = require('express')
 require('dotenv').config()
 const cors = require('cors')
-const app = express()
-const Person = require('./models/person')
-const { json } = require('express')
 
-app.use(cors())
-app.use(express.static('build'))
-app.use(express.json())
+const app = express()
 
 /* more info about morgan
 https://github.com/expressjs/morgan
 */
-if (process.env.NODE_ENV === 'development') {
-  const morgan = require('morgan')
+const morgan = process.env.NODE_ENV === 'development' ? require('morgan') : null
+
+if (morgan) {
   // app.use(morgan('tiny'))
   morgan.token('body', (req) => JSON.stringify(req.body))
   app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 }
 
+const Person = require('./models/person')
+
+app.use(cors())
+app.use(express.static('build'))
+app.use(express.json())
+
 app.get('/api/persons', (_, res) => {
   Person.find({}).then(
-    persons => res.json(persons.toJSON())
-  ).catch(error => {
+    (persons) => res.json(persons.toJSON()),
+  ).catch((error) => {
     console.log(error)
     res.status(404).end()
   })
@@ -30,57 +32,57 @@ app.get('/api/persons', (_, res) => {
 
 app.get('/api/persons/info', async (_, res, next) => {
   Person.find({}).then(
-    persons =>
-      res.send(`<p>Phonebook has info for ${persons.length} people</p><p>${Date()}</p>`)
-  ).catch(error => next(error))
+    (persons) => res.send(`<p>Phonebook has info for ${persons.length} people</p><p>${Date()}</p>`),
+  ).catch((error) => next(error))
 })
 
 app.get('/api/persons/:id', (req, res, next) => {
-  const id = req.params.id
+  const { id } = req.params
   Person.findById(id)
     .then(
-      person => {
+      (person) => {
         if (person) {
-          return res.json(person.toJSON())
+          res.json(person.toJSON())
+        } else {
+          res.status(404).end()
         }
-        res.status(404).end()
-      }
-    ).catch(error => next(error))
+      },
+    ).catch((error) => next(error))
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
-  const id = req.params.id
+  const { id } = req.params
   Person.findByIdAndRemove(id).then(
-    person => {
+    (person) => {
       if (person) res.status(204).end()
-      else res.status(404).json({ 'error': 'person not found' })
-    }
-  ).catch(error => next(error))
+      else res.status(404).json({ error: 'person not found' })
+    },
+  ).catch((error) => next(error))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
-  const id = req.params.id
+  const { id } = req.params
   Person.findByIdAndUpdate(id, { ...req.body }, { new: true, runValidators: true }).then(
-    person => {
+    (person) => {
       if (person) res.json(person.toJSON())
-      else res.status(404).json({ 'error': 'person not found' })
-    }
-  ).catch(error => next(error))
+      else res.status(404).json({ error: 'person not found' })
+    },
+  ).catch((error) => next(error))
 })
 
 app.post('/api/persons', async (req, res, next) => {
-  const body = req.body
+  const { body } = req
   // let person = await Person.findOne({ name: body.name }).catch(error => next(error))
   // if (person) ˜return res.status(404).json({ 'error': 'name must be unique' })
   const person = new Person({
     name: body.name,
-    number: body.number
+    number: body.number,
   })
   person.save().then(
-    savedPerson => {
+    (savedPerson) => {
       res.json(savedPerson.toJSON())
-    }
-  ).catch(error => next(error))
+    },
+  ).catch((error) => next(error))
 })
 
 const unknownEndpoint = (req, res) => res.status(404).send({ error: 'unknown endpoint' })
@@ -89,11 +91,12 @@ app.use(unknownEndpoint)
 const errorHandler = (error, request, response, next) => {
   console.error(error.message)
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
-    return response.status(400).json({ message: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ message: error.message })
+    response.status(400).json({ message: 'malformatted id' })
+  } if (error.name === 'ValidationError') {
+    response.status(400).json({ message: error.message })
+  } else {
+    next(error)
   }
-  next(error)
 }
 app.use(errorHandler)
 
@@ -101,6 +104,3 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port${PORT}`)
 })
-
-
-
