@@ -31,7 +31,7 @@ const Countries = ({ countries }) => {
     } else if (countries.length === 1) {
         return <Country country={countries[0]} />
     }
-    return null
+    return <div>no matches</div>
 }
 
 const CountryItem = ({ country }) => {
