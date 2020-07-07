@@ -3,6 +3,7 @@ require('dotenv').config()
 const cors = require('cors')
 const app = express()
 const Person = require('./models/person')
+const { json } = require('express')
 
 app.use(cors())
 app.use(express.static('build'))
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.get('/api/persons', (_, res) => {
   Person.find({}).then(
-    persons => res.json(persons)
+    persons => res.json(persons.toJSON())
   ).catch(error => {
     console.log(error)
     res.status(404).end()
@@ -40,7 +41,7 @@ app.get('/api/persons/:id', (req, res, next) => {
     .then(
       person => {
         if (person) {
-          return res.send(person)
+          return res.json(person.toJSON())
         }
         res.status(404).end()
       }
@@ -61,8 +62,7 @@ app.put('/api/persons/:id', (req, res, next) => {
   const id = req.params.id
   Person.findByIdAndUpdate(id, { ...req.body }, { new: true, runValidators: true }).then(
     person => {
-      console.log(person)
-      if (person) res.status(200).json(person)
+      if (person) res.json(person.toJSON())
       else res.status(404).json({ 'error': 'person not found' })
     }
   ).catch(error => next(error))
@@ -97,7 +97,7 @@ const errorHandler = (error, request, response, next) => {
 }
 app.use(errorHandler)
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port${PORT}`)
 })
