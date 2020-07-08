@@ -11,6 +11,9 @@ fullstack training course from
     * [anecdotes](/part1/anecdotes)
 * [part2](/part2)
     * [courseinfo](/part2/courseinfo)
-    * [unicafe](/part2/data_for_countries)
-    * [anecdotes](/part2/the_phonebook)
+    * [countries](/part2/data_for_countries)
+    * [phonebook](/part2/the_phonebook)
+* [part3](/part3)
+    * [phonebook](/part3/the_phonebook)
+    * [phonebook_backend](../../tree/phonebook_backend)
 
