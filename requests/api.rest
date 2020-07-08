@@ -54,4 +54,17 @@ Content-Type: application/json
     "number": ""
 }
 
+### get all blog
+GET http://localhost:3001/api/blogs
+
+### post a blog
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "title":"Games2",
+    "author":"leihao0",
+    "url":"https://leihao0.github.io/Games/",
+    "likes":"2"
+}
 
