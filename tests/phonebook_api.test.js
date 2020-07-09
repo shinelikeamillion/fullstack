@@ -10,8 +10,17 @@ jest.setTimeout(20000)
 // 耗时操作，jest.setTimeout(3000)
 beforeEach(async () => {
   await Person.deleteMany({})
-  await new Person(helper.initialphonebook[0]).save()
-  await new Person(helper.initialphonebook[1]).save()
+  await Promise.all(
+    helper.initialphonebook
+      .map((person) => new Person(person))
+      .map((person) => person.save()),
+  )
+
+  // 如果需要考虑执行顺序
+  // for (const p of helper.initialphonebook) {
+  //   const personObj = new Person(p)
+  //   await personObj.save()
+  // }
 })
 
 test('should return json when request', async () => {
