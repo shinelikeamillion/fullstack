@@ -4,15 +4,15 @@
   "description": "phonebook_backend",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js --ignore tests/",
+    "test": "NODE_ENV=test jest --verbose --runInBand",
     "build:ui": "rm -rf build && cd ../fullstack/part3/the_phonebook && npm run build --prod && cp -r build ../../../fullstack_back_end",
     "deploy": "git push heroku phonebook_backend:master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
-    "dev": "nodemon index.js",
     "restart:heroku": "heroku restart",
     "logs:prod": "heroku logs --tail",
-    "lint": "eslint .",
-    "test": "jest --verbose"
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,8 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "jest": "^26.1.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node"

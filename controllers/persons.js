@@ -11,7 +11,7 @@ personsRouter.get('/', (_, res) => {
   })
 })
 
-personsRouter.get('/info', async (_, res, next) => {
+personsRouter.get('/info', (_, res, next) => {
   Person.find({}).then(
     (persons) => res.send(`<p>Phonebook has info for ${persons.length} people</p><p>${Date()}</p>`),
   ).catch((error) => next(error))
