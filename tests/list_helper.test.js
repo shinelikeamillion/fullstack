@@ -56,6 +56,7 @@ describe('should mostBlogs', () => {
     expect(listHelper.mostBlogs([])).toBe(null)
   })
   test('be { author: elon musk, number: 2 } if list is biggerBlogList', () => {
+    console.log(listHelper.mostBlogs(biggerBlogList))
     expect(listHelper.mostBlogs(biggerBlogList))
       .toEqual({ author: biggerBlogList[0].author, number: 2 })
   })
