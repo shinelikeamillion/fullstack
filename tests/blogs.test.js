@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./blogs_test_helper')
 
 const api = supertest(app)
@@ -90,6 +91,28 @@ describe('addition of a new blog', () => {
     const blogsEnd = await helper.blogsInDb()
     expect(blogsEnd).toHaveLength(helper.initialBlogs.length + 1)
     expect(blogsEnd.map((p) => p.author)).toContain(newblog.author)
+  })
+
+  test('should a valid blog be added with userId', async () => {
+    const newblog = {
+      title: 'Youtube',
+      author: 'google',
+      url: 'http://www.google.com',
+      likes: 5,
+      userId: '5f082bc36b3904d1c42d69d8',
+    }
+    const savedBlog = await api
+      .post('/api/blogs')
+      .send(newblog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsEnd = await helper.blogsInDb()
+    expect(blogsEnd).toHaveLength(helper.initialBlogs.length + 1)
+    expect(blogsEnd.map((p) => p.author)).toContain(newblog.author)
+
+    const user = await User.findById(newblog.userId)
+    expect(user.blogs).toContain(savedBlog.id)
   })
 
   test('should a blog without title or url can not be added', async () => {

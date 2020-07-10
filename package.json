@@ -6,7 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js --ignore tests/",
-    "clear:console":"/usr/bin/osascript -e 'tell application 'System Events' to tell process 'Terminal' to keystroke 'k' using command down'",
+    "clear:console": "/usr/bin/osascript -e 'tell application 'System Events' to tell process 'Terminal' to keystroke 'k' using command down'",
     "test": "clear && NODE_ENV=test jest --verbose --runInBand",
     "build:ui": "rm -rf build && cd ../fullstack/part3/the_phonebook && npm run build --prod && cp -r build ../../../fullstack_back_end",
     "deploy": "git push heroku phonebook_backend:master",
@@ -29,10 +29,12 @@
   },
   "homepage": "https://github.com/shinelikeamillion/fullstack#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.18",
     "mongoose": "^5.9.21",
     "mongoose-unique-validator": "^2.0.3",

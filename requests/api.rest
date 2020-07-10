@@ -69,3 +69,13 @@ Content-Type: application/json
     "likes":"2"
 }
 
+### register a user
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username":"Panda1",
+    "name":"panda",
+    "password":"panda_no_1"
+}
+
