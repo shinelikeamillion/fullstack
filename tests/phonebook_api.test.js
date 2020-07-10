@@ -29,13 +29,13 @@ test('should return json when request', async () => {
     .expect('Content-Type', /application\/json/)
 })
 
-test('should all notes are returned', async () => {
+test('should all persons are returned', async () => {
   const res = await api.get('/api/persons')
     .expect(200)
   expect(res.body).toHaveLength(helper.initialphonebook.length)
 })
 
-test('a specific note is within the returned phonebook', async () => {
+test('a specific person is within the returned phonebook', async () => {
   const res = await api.get('/api/persons')
     .expect(200)
   expect(res.body.map((p) => p.name)).toContain('Browser')
@@ -81,6 +81,13 @@ test('should a person can be view', async () => {
     .expect('Content-Type', /application\/json/)
 
   expect(resultPerson.body).toEqual(personToView)
+})
+
+test('should person id be defined', async () => {
+  const personsAtStart = await helper.personsInDb()
+  const personToView = personsAtStart[0]
+
+  expect(personToView.id).toBeDefined()
 })
 
 test('should a person can be deleted', async () => {

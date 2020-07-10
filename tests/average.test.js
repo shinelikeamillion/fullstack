@@ -13,3 +13,9 @@ describe('average', () => {
     expect(average([])).toBe(0)
   })
 })
+
+test('toContain', () => {
+  expect([1, 2, 3, 4]).toContain(1)
+  expect([1, 2, 3, 4, { a: 1 }]).not.toContain({ a: 1 })
+  expect([1, 2, 3, 4, { a: 1 }]).toContainEqual({ a: 1 })
+})

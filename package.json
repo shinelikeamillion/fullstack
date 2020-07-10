@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js --ignore tests/",
-    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "clear:console":"/usr/bin/osascript -e 'tell application 'System Events' to tell process 'Terminal' to keystroke 'k' using command down'",
+    "test": "clear && NODE_ENV=test jest --verbose --runInBand",
     "build:ui": "rm -rf build && cd ../fullstack/part3/the_phonebook && npm run build --prod && cp -r build ../../../fullstack_back_end",
     "deploy": "git push heroku phonebook_backend:master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
