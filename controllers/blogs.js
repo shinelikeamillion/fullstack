@@ -32,7 +32,7 @@ blogRouter.put('/:id', async (req, res) => {
   const { id } = req.params
   const updateBlog = req.body
   const blog = await Blog
-    .findByIdAndUpdate(id, { ...updateBlog }, { new: true, runValidators: true })
+    .findByIdAndUpdate(id, { ...updateBlog }, { new: true, runValidators: true, context: 'query' })
   if (blog) res.json(blog.toJSON())
   else res.status(404).json({ error: 'blog not found' })
 })

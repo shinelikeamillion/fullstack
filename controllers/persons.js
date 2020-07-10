@@ -29,7 +29,7 @@ personsRouter.delete('/:id', async (req, res) => {
 personsRouter.put('/:id', async (req, res) => {
   const { id } = req.params
   const person = await Person
-    .findByIdAndUpdate(id, { number: req.body.number }, { new: true, runValidators: true })
+    .findByIdAndUpdate(id, { number: req.body.number }, { new: true, runValidators: true, context: 'query' })
   if (person) res.json(person.toJSON())
   else res.status(404).json({ error: 'person not found' })
 })

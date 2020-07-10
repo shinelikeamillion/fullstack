@@ -28,7 +28,7 @@ const initialBlogs = [
 ]
 
 const nonExistingId = async () => {
-  const blog = Blog({ name: 'Flutter?' })
+  const blog = new Blog({ name: 'Flutter?' })
   // is it necessary?
   // await blog.save()
   // await blog.remove()
@@ -41,4 +41,9 @@ const blogsInDb = async () => {
   return blogs.map((p) => p.toJSON())
 }
 
-module.exports = { initialBlogs, nonExistingId, blogsInDb }
+const invalidId = '5a3d5da59070081a82a3445'
+const notSavedId = '5f07dd38c0fd42a8640135df'
+
+module.exports = {
+  initialBlogs, nonExistingId, blogsInDb, invalidId, notSavedId,
+}
