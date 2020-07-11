@@ -13,11 +13,15 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.post('/', async (req, res) => {
   const { body } = req
   const saltRounds = 10
-  const passwordHash = await bcrypt.hash(body.password, saltRounds)
-  delete body.password
-  const user = new User({ ...body, passwordHash })
-  const savedUser = await user.save()
-  res.json(savedUser.toJSON())
+  if (body.password) {
+    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    delete body.password
+    const user = new User({ ...body, passwordHash })
+    const savedUser = await user.save()
+    res.json(savedUser.toJSON())
+    return
+  }
+  res.status(400).send({ message: 'User validation failed: Path \'password\' is required' })
 })
 
 module.exports = usersRouter

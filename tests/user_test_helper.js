@@ -8,7 +8,7 @@ const initialUsers = [
   },
   {
     username: 'JavaScript',
-    name: 'js',
+    name: 'javascript',
     password: 'iamjs',
   },
   {

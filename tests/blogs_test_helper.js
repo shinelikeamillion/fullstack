@@ -5,6 +5,7 @@ const initialBlogs = [
     title: 'HTML',
     author: 'w3c',
     url: 'http://www.w3cschool.com',
+    user: '5f0944962cd7ad173fc3395b',
     likes: 3,
   },
   {
@@ -23,6 +24,7 @@ const initialBlogs = [
     title: 'React?',
     author: 'facebook',
     url: 'http://www.facebook.com',
+    user: '5f0944962cd7ad173fc3395b',
     likes: 5,
   },
 ]

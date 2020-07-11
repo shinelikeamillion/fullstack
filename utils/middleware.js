@@ -8,9 +8,11 @@ const errorHandler = (error, request, response, next) => {
     response.status(400).json({ message: 'malformatted id' })
   } if (error.name === 'ValidationError') {
     response.status(400).json({ message: error.message })
-  } else {
-    next(error)
+  } else if (error.name === 'JsonWebTokenError') {
+    response.status(401).json({ message: 'invalid token' })
   }
+  logger.error(error.message)
+  next(error)
 }
 
 /* more info about morgan
@@ -39,4 +41,14 @@ const requestLogger = (req, res, next) => {
   next()
 }
 
-module.exports = { unknownEndpoint, errorHandler, requestLogger }
+const tokenExtractor = (req, res, next) => {
+  const { authorization } = req.headers
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    req.token = authorization.substring(7)
+  }
+  next()
+}
+
+module.exports = {
+  unknownEndpoint, errorHandler, requestLogger, tokenExtractor,
+}

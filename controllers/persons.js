@@ -41,7 +41,7 @@ personsRouter.post('/', async (req, res) => {
     number: body.number,
   })
   const savedPerson = await person.save()
-  res.json(savedPerson.toJSON())
+  if (savedPerson)res.json(savedPerson.toJSON())
 })
 
 module.exports = personsRouter
