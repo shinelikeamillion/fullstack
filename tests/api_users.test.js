@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const supertest = require('supertest')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
-const helper = require('./user_test_helper')
+const helper = require('./test_helper_user')
 const app = require('../app')
 
 const api = supertest(app)
