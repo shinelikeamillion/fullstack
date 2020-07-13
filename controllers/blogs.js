@@ -21,7 +21,7 @@ const User = require('../models/user')
 blogRouter.get('/', async (_, res) => {
   const blogs = await Blog.find({})
     .populate('user', { username: 1, name: 1 })
-  res.json(blogs.map((blog) => blog.toJSON()))
+  res.json(blogs)
 })
 
 blogRouter.get('/info', async (_, res) => {
@@ -34,7 +34,7 @@ blogRouter.get('/info', async (_, res) => {
 blogRouter.get('/:id', async (req, res) => {
   const { id } = req.params
   const blog = await Blog.findById(id)
-  if (blog) res.json(blog.toJSON())
+  if (blog) res.json(blog)
   else res.status(404).end()
 })
 
@@ -46,8 +46,13 @@ blogRouter.delete('/:id', async (req, res) => {
     res.status(401).json({ error: 'token missing or invalid' })
     return
   }
-  const blog = await Blog.findByIdAndRemove(id)
+  const blog = await Blog.findById(id)
   if (blog) {
+    if (blog.user._id.toString() !== decodedToken.id) {
+      res.status(403).json({ error: 'token missing or invalid' })
+      return
+    }
+    blog.remove()
     const user = await User.findById(blog.user)
     user.blogs = user.blogs.remove(id)
     await user.save()
@@ -66,7 +71,7 @@ blogRouter.put('/:id', async (req, res) => {
   const updateBlog = body
   const blog = await Blog
     .findByIdAndUpdate(id, { ...updateBlog }, { new: true, runValidators: true, context: 'query' })
-  if (blog) res.json(blog.toJSON())
+  if (blog) res.json(blog)
   else res.status(404).json({ error: 'blog not found' })
 })
 
@@ -89,7 +94,7 @@ blogRouter.post('/', async (req, res) => {
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id.toString())
     await user.save()
-    res.json(savedBlog.toJSON())
+    res.json(savedBlog)
   }
   res.status(404).send({ message: 'user not found' })
 })

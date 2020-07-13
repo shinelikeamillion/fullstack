@@ -15,6 +15,7 @@ loginRouter.post('/', async (req, res) => {
     res.status(401).json({
       error: 'invalid username or password',
     })
+    return
   }
 
   const userForToken = {

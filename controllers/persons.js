@@ -4,7 +4,7 @@ require('express-async-errors')
 
 personsRouter.get('/', async (_, res) => {
   const persons = await Person.find({})
-  res.json(persons.map((p) => p.toJSON()))
+  res.json(persons.map((p) => p))
 })
 
 personsRouter.get('/info', async (_, res) => {
@@ -15,7 +15,7 @@ personsRouter.get('/info', async (_, res) => {
 personsRouter.get('/:id', async (req, res) => {
   const { id } = req.params
   const person = await Person.findById(id)
-  if (person) res.json(person.toJSON())
+  if (person) res.json(person)
   else res.status(404).end()
 })
 
@@ -30,7 +30,7 @@ personsRouter.put('/:id', async (req, res) => {
   const { id } = req.params
   const person = await Person
     .findByIdAndUpdate(id, { number: req.body.number }, { new: true, runValidators: true, context: 'query' })
-  if (person) res.json(person.toJSON())
+  if (person) res.json(person)
   else res.status(404).json({ error: 'person not found' })
 })
 
@@ -41,7 +41,7 @@ personsRouter.post('/', async (req, res) => {
     number: body.number,
   })
   const savedPerson = await person.save()
-  if (savedPerson)res.json(savedPerson.toJSON())
+  if (savedPerson)res.json(savedPerson)
 })
 
 module.exports = personsRouter

@@ -7,7 +7,7 @@ usersRouter.get('/', async (req, res) => {
   const users = await User.find({})
     .populate('blogs')
     // .populate('blogs', { title: 1, url: 1 }) // 或选择感兴趣字段
-  res.json(users.map((u) => u.toJSON()))
+  res.json(users)
 })
 
 usersRouter.post('/', async (req, res) => {
@@ -18,7 +18,7 @@ usersRouter.post('/', async (req, res) => {
     delete body.password
     const user = new User({ ...body, passwordHash })
     const savedUser = await user.save()
-    res.json(savedUser.toJSON())
+    res.json(savedUser)
     return
   }
   res.status(400).send({ message: 'User validation failed: Path \'password\' is required' })

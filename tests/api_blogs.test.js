@@ -6,30 +6,32 @@ const User = require('../models/user')
 const helper = require('./test_helper_blogs')
 
 const api = supertest(app)
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
+let id = ''
 let token = ''
-const id = '5f0944962cd7ad173fc3395b'
+
 // 耗时操作，jest.setTimeout(3000)
 beforeEach(async () => {
-  await Blog.deleteMany({})
-  await Promise.all(
-    helper.initialBlogs
-      .map((blog) => new Blog(blog))
-      .map((blog) => blog.save()),
-  )
-
-  const logUser = {
-    username: 'CSS',
+  const css = await User.findOne({ username: 'CSS' })
+  const user = {
+    username: css.username,
     password: 'iamcss',
   }
   const { body } = await api.post('/api/login')
-    .send(logUser)
+    .send(user)
     .expect(200)
+  id = css.toJSON().id
   token = `bearer ${body.token}`
 
+  await Blog.deleteMany({})
+  await Promise.all(
+    helper.initialBlogs(id)
+      .map((blog) => new Blog(blog))
+      .map((blog) => blog.save()),
+  )
 // 如果需要考虑执行顺序
-// for (const p of helper.initialBlogs) {
+// for (const p of helper.initialBlogs(id)) {
 //   const blogObj = new blog(p)
 //   await blogObj.save()
 // }
@@ -45,7 +47,7 @@ describe('shoule be initially blogs saved there', () => {
   test('should all blogs are returned', async () => {
     const res = await api.get('/api/blogs')
       .expect(200)
-    expect(res.body).toHaveLength(helper.initialBlogs.length)
+    expect(res.body).toHaveLength(helper.initialBlogs(id).length)
   })
 
   test('a specific blog is within the returned blogs', async () => {
@@ -63,6 +65,7 @@ describe('viewing a specific blog', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/)
 
+    blogToView.user = blogToView.user.toString()
     expect(resultblog.body).toEqual(blogToView)
   })
   test('fails with statuscode 404 if note does not exist', async () => {
@@ -72,9 +75,8 @@ describe('viewing a specific blog', () => {
       .expect(404)
   })
   test('fails with statuscode 400 id is invalid', async () => {
-    const invalidID = helper.invalidId
     await api
-      .get(`/api/blogs/${invalidID}`)
+      .get(`/api/blogs/${helper.invalidId}`)
       .expect(400)
   })
 })
@@ -94,6 +96,7 @@ describe('addition of a new blog', () => {
       url: 'http://www.google.com',
       likes: 5,
     }
+
     const res = await api
       .post('/api/blogs')
       .set('Authorization', token)
@@ -102,7 +105,7 @@ describe('addition of a new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsEnd = await helper.blogsInDb()
-    expect(blogsEnd).toHaveLength(helper.initialBlogs.length + 1)
+    expect(blogsEnd).toHaveLength(helper.initialBlogs(id).length + 1)
     expect(blogsEnd.map((p) => p.author)).toContain(newblog.author)
 
     const user = await User.findById(res.body.user)
@@ -123,7 +126,7 @@ describe('addition of a new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsEnd = await helper.blogsInDb()
-    expect(blogsEnd).toHaveLength(helper.initialBlogs.length)
+    expect(blogsEnd).toHaveLength(helper.initialBlogs(id).length)
     expect(res.body.message).toContain('invalid token')
   })
 
@@ -152,7 +155,7 @@ describe('addition of a new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsEnd = await helper.blogsInDb()
-    expect(blogsEnd).toHaveLength(helper.initialBlogs.length)
+    expect(blogsEnd).toHaveLength(helper.initialBlogs(id).length)
     expect(blogsEnd.map((p) => p.author)).not.toContain(noTitleBlog.author)
     expect(blogsEnd.map((p) => p.author)).not.toContain(noUrlBlog.author)
   })
@@ -171,7 +174,7 @@ describe('addition of a new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsEnd = await helper.blogsInDb()
-    expect(blogsEnd).toHaveLength(helper.initialBlogs.length + 1)
+    expect(blogsEnd).toHaveLength(helper.initialBlogs(id).length + 1)
     expect(blogsEnd.filter((p) => p.author === newblog.author)[0].likes).toBe(0)
   })
 })
@@ -183,9 +186,9 @@ describe('deletion of a note', () => {
       .set('Authorization', token)
       .expect(404)
   })
-  test('should a blog can be deleted', async () => {
+  test.only('should a blog can be deleted', async () => {
     const blogsAtStart = await helper.blogsInDb()
-    const blogToDelete = blogsAtStart.find((p) => p.user && p.user.toString() === id)
+    const blogToDelete = blogsAtStart.find((p) => p.user && p.user === id)
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
       .set('Authorization', token)
@@ -194,6 +197,18 @@ describe('deletion of a note', () => {
     const blogsAtDb = await helper.blogsInDb()
     expect(blogsAtDb).toHaveLength(blogsAtStart.length - 1)
     expect(blogsAtDb.map((p) => p.title)).not.toContain(blogToDelete.title)
+  })
+
+  test('should a blog can not be deleted, if the blog\'s user is not equals token\'s id', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart.find((p) => (p.user ?? '') !== id)
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', token)
+      .expect(403)
+
+    const blogsAtDb = await helper.blogsInDb()
+    expect(blogsAtDb).toHaveLength(blogsAtStart.length)
   })
 })
 describe('update a note', () => {
