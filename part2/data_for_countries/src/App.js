@@ -7,9 +7,9 @@ const App = () => {
     const [countries, setCountries] = useState([])
 
     // useEffect function must return a cleanup function or nothing
-    const hook = async () => {
+    const hook = () => {
         if (!name) return
-        await axios
+        axios
             .get(`https://restcountries.eu/rest/v2/name/${name}`)
             .then(response => {
                 if (response.status === 200) handleResult(response.data)

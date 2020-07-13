@@ -46,7 +46,7 @@ const CountryItem = ({ country }) => {
 const Country = ({ country }) => {
     const [weather, setWeather] = useState()
 
-    const getWeather = async () => await
+    const getWeather = () =>
         axios.get(`${process.env.REACT_APP_URL}?q=${country.name}&units=metric&appid=${process.env.REACT_APP_ID}`)
             .then(response => {
                 if (response.status === 200) {

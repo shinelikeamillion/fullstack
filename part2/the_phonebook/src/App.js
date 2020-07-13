@@ -92,12 +92,12 @@ const App = () => {
         }
     }
 
-    const addPerson = async () => {
+    const addPerson = () => {
         const personObj = {
             name: newName,
             number: newNumber
         }
-        await phonebookService
+        phonebookService
             .create(personObj)
             .then(person => {
                 setPersons(persons.concat(person))
@@ -107,10 +107,10 @@ const App = () => {
             })
     }
 
-    const update = async () => {
+    const update = () => {
         const person = persons.find(person => person.name === newName)
         const changePerson = { ...person, number: newNumber }
-        await phonebookService
+        phonebookService
             .update(changePerson.id, changePerson)
             .then(updatedPerson => {
                 setPersons(persons.map(person => person.name !== newName ? person : updatedPerson))
@@ -118,7 +118,7 @@ const App = () => {
             })
     }
 
-    const fetchPersons = async () => await
+    const fetchPersons = () =>
         phonebookService
             .getAll()
             .then(initialPhonebook => {
@@ -131,8 +131,8 @@ const App = () => {
                 setPersons(initialPhonebook)
             })
 
-    const deleteById = async (person) => {
-        await phonebookService
+    const deleteById = (person) => {
+        phonebookService
             .deleteById(person.id)
             .then(_ => {
                 setPersons(persons.filter(p => p.id !== person.id))
