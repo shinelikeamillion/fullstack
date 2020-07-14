@@ -23,7 +23,7 @@ personsRouter.delete('/:id', async (req, res) => {
   const { id } = req.params
   const person = await Person.findByIdAndRemove(id)
   if (person) res.status(204).end()
-  else res.status(404).json({ error: 'person not found' })
+  else res.status(404).json({ message: 'person not found' })
 })
 
 personsRouter.put('/:id', async (req, res) => {
@@ -31,7 +31,7 @@ personsRouter.put('/:id', async (req, res) => {
   const person = await Person
     .findByIdAndUpdate(id, { number: req.body.number }, { new: true, runValidators: true, context: 'query' })
   if (person) res.json(person)
-  else res.status(404).json({ error: 'person not found' })
+  else res.status(404).json({ message: 'person not found' })
 })
 
 personsRouter.post('/', async (req, res) => {

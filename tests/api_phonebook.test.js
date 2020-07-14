@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Person = require('../models/person')
-const helper = require('./phonebook_test_helper')
+const helper = require('./test_helper_phonebook')
 
 const api = supertest(app)
 jest.setTimeout(20000)

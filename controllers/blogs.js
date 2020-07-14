@@ -43,13 +43,13 @@ blogRouter.delete('/:id', async (req, res) => {
   const { token } = req
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!token || !decodedToken.id) {
-    res.status(401).json({ error: 'token missing or invalid' })
+    res.status(401).json({ message: 'token missing or invalid' })
     return
   }
   const blog = await Blog.findById(id)
   if (blog) {
     if (blog.user._id.toString() !== decodedToken.id) {
-      res.status(403).json({ error: 'token missing or invalid' })
+      res.status(403).json({ message: 'token missing or invalid' })
       return
     }
     blog.remove()
@@ -57,7 +57,7 @@ blogRouter.delete('/:id', async (req, res) => {
     user.blogs = user.blogs.remove(id)
     await user.save()
     res.status(204).end()
-  } else res.status(404).json({ error: 'blog not found' })
+  } else res.status(404).json({ message: 'blog not found' })
 })
 
 blogRouter.put('/:id', async (req, res) => {
@@ -65,21 +65,21 @@ blogRouter.put('/:id', async (req, res) => {
   const { body, token } = req
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!token || !decodedToken.id) {
-    res.status(401).json({ error: 'token missing or invalid' })
+    res.status(401).json({ message: 'token missing or invalid' })
     return
   }
   const updateBlog = body
   const blog = await Blog
     .findByIdAndUpdate(id, { ...updateBlog }, { new: true, runValidators: true, context: 'query' })
   if (blog) res.json(blog)
-  else res.status(404).json({ error: 'blog not found' })
+  else res.status(404).json({ message: 'blog not found' })
 })
 
 blogRouter.post('/', async (req, res) => {
   const { body, token } = req
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!token || !decodedToken.id) {
-    res.status(401).json({ error: 'token missing or invalid' })
+    res.status(401).json({ message: 'token missing or invalid' })
     return
   }
   const blog = new Blog({
