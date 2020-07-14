@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import userService from '../services/user'
+import PropTypes from 'prop-types'
 
 const Login = ({ updateUser, showMessage }) => {
   const [loginForm, setLoginForm] = useState({ username: 'Panda1', password: 'panda_no_1' })
@@ -33,6 +34,11 @@ const Login = ({ updateUser, showMessage }) => {
     </table>
     <button type="submit">login</button>
   </form>
+}
+
+Login.prototypes = {
+  updateUser: PropTypes.func.isRequired,
+  showMessage: PropTypes.func.isRequired,
 }
 
 export default Login

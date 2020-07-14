@@ -3,15 +3,6 @@ import BlogList from './components/Blog'
 import Login from './components/Login'
 import Notification from './components/Notification'
 
-/*
-Exercises 5.1.-5.4.
-  5.1: frontend for bloglist
-    login: return token, save user state
-    not sign in: display login from or display bloglist
-  5.2: save userinfo to local,and logout
-  5.3: add new blog
-  5.4: notification
-*/
 const KEY_LOGGED_USER = 'loggedUser'
 const App = () => {
   const [user, setUser] = useState(null)
