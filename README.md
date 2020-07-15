@@ -16,4 +16,9 @@ fullstack training course from
 * [part3](/part3)
     * [phonebook](/part3/the_phonebook)
     * [phonebook_backend](../../tree/phonebook_backend)
+* [part4](../../tree/phonebook_backend)
+    * [phonebook_backend](../../tree/phonebook_backend)
+* [part5](../part5)
+    * [bloglist_frontend](/part5/bloglist-frontend)
+
 
