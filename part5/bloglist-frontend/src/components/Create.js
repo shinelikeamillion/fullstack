@@ -18,7 +18,7 @@ const Create = ({ createBlog, showMessage }) => {
         setBlog({ title: '', author: '', url: '', })
         showMessage({ message: `new blog ${blog.title} by ${blog.author} added` })
       })
-      .catch(error => showMessage({ message: error.response.data.message, isError: true }))
+      .catch(error => console.log(error))
   }
 
   return < form onSubmit={create} >
@@ -44,7 +44,7 @@ const Create = ({ createBlog, showMessage }) => {
         </tr>
       </tbody>
     </table>
-    <button type="submit">create</button>
+    <button id="create" type="submit">create</button>
   </form >
 }
 

@@ -58,11 +58,12 @@ const BlogDetail = ({ blog }) => {
 const BlogList = ({ user, showMessage }) => {
   blogService.setToken(user.token)
   const [blogs, setBlogs] = useState([])
+  const [sort, setSort] = useState(false)
   const createFormRef = useRef()
 
   const createBlog = blog => {
-    createFormRef.current.toggleVisibility()
     setBlogs(blogs.concat(blog))
+    createFormRef.current.toggleVisibility()
   }
   const updateBlog = blog => {
     setBlogs(blogs.map(b => b.id === blog.id ? blog : b))
@@ -77,7 +78,14 @@ const BlogList = ({ user, showMessage }) => {
       .then(blogs => setBlogs(blogs))
   }, [])
 
+  const sorthandler = () => {
+    const sortedBlogs = blogs.sort((a,b) => !sort?(b.likes - a.likes):(a.id < b.id ? -1 : 1))
+    setBlogs(sortedBlogs)
+    setSort(!sort)
+  }
+
   return <>
+    <button id='sort' onClick={sorthandler}>{sort?'normal':'sort'}</button>
     {blogs.map(blog => <Blog
       key={blog.id} blog={blog}
       showMessage={showMessage}

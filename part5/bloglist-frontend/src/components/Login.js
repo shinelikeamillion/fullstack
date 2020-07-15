@@ -19,20 +19,20 @@ const Login = ({ updateUser, showMessage }) => {
       .catch(error => showMessage({ message: error.response.data.message, isError: true }))
   }
 
-  return <form onSubmit={login}>
+  return <form id='login_form' onSubmit={login}>
     <table>
       <tbody>
         <tr>
           <td>Username: </td>
-          <td><input value={loginForm.username} onChange={onNameChange} /></td>
+          <td><input id="username" value={loginForm.username} onChange={onNameChange} /></td>
         </tr>
         <tr>
           <td>Password: </td>
-          <td><input value={loginForm.password} onChange={onPasswordChange} type='password' /></td>
+          <td><input id="password" value={loginForm.password} onChange={onPasswordChange} type='password' /></td>
         </tr>
       </tbody>
     </table>
-    <button type="submit">login</button>
+    <button id = "login" type="submit">login</button>
   </form>
 }
 
