@@ -12,7 +12,6 @@ const errorHandler = (error, request, response, next) => {
     response.status(401).json({ message: 'invalid token' })
   }
   logger.error(error.message)
-  next(error)
 }
 
 /* more info about morgan

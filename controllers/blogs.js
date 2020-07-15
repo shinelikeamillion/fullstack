@@ -48,8 +48,8 @@ blogRouter.delete('/:id', async (req, res) => {
   }
   const blog = await Blog.findById(id)
   if (blog) {
-    if (blog.user._id.toString() !== decodedToken.id) {
-      res.status(403).json({ message: 'token missing or invalid' })
+    if (!blog.user || blog.user._id.toString() !== decodedToken.id) {
+      res.status(403).json({ message: 'no permission for this request' })
       return
     }
     blog.remove()
@@ -60,6 +60,7 @@ blogRouter.delete('/:id', async (req, res) => {
   } else res.status(404).json({ message: 'blog not found' })
 })
 
+// only update likes for now
 blogRouter.put('/:id', async (req, res) => {
   const { id } = req.params
   const { body, token } = req
@@ -70,7 +71,8 @@ blogRouter.put('/:id', async (req, res) => {
   }
   const updateBlog = body
   const blog = await Blog
-    .findByIdAndUpdate(id, { ...updateBlog }, { new: true, runValidators: true, context: 'query' })
+    .findByIdAndUpdate(id, { likes: updateBlog.likes }, { new: true, runValidators: true, context: 'query' })
+  console.log(id, blog)
   if (blog) res.json(blog)
   else res.status(404).json({ message: 'blog not found' })
 })
