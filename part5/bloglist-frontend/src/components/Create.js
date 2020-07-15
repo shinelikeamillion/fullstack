@@ -26,19 +26,19 @@ const Create = ({ createBlog, showMessage }) => {
       <tbody>
         <tr>
           <td>title: </td>
-          <td><input value={blog.title}
+          <td><input id='title' value={blog.title}
             onChange={(event) => { setBlog({ ...blog, title: event.target.value }) }} />
           </td>
         </tr>
         <tr>
           <td>author: </td>
-          <td><input value={blog.author}
+          <td><input id='author' value={blog.author}
             onChange={(event) => { setBlog({ ...blog, author: event.target.value }) }} />
           </td>
         </tr>
         <tr>
           <td>url: </td>
-          <td><input value={blog.url}
+          <td><input id='url' value={blog.url}
             onChange={(event) => { setBlog({ ...blog, url: event.target.value }) }} />
           </td>
         </tr>

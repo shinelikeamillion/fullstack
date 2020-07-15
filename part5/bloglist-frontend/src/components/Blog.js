@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import blogService from '../services/blogs'
 import Create from '../components/Create'
 import Togglable from '../components/Togglable'
-import PropTypes from 'prop-types'
 
 const Blog = ({ blog, showMessage, updateBlog, deleteBlog }) => {
   const blogStyle = {
@@ -35,22 +34,24 @@ const Blog = ({ blog, showMessage, updateBlog, deleteBlog }) => {
     }
   }
 
-  return <div style={blogStyle}>
-    <a href={blog.url}>{blog.title}</a> -- {blog.author}
-    <button onClick={like}>like</button>
-    <button onClick={deleteById}>delete</button>
-    <Togglable buttonLabel='show detail'>
-      <BlogDetail blog={blog} />
-    </Togglable>
-  </div>
+  return (
+    <div style={blogStyle} className='blog'>
+      <a href={blog.url}>{blog.title}</a> -- {blog.author}
+      <button id='likeBtn' onClick={like}>like</button>
+      <button id='deleteBtn' onClick={deleteById}>delete</button>
+      <Togglable buttonLabel='show detail'>
+        <BlogDetail blog={blog} />
+      </Togglable>
+    </div>
+  )
 }
 
 const BlogDetail = ({ blog }) => {
   return <>
-    <div>title: {blog.title}</div>
-    <div>author: {blog.author}</div>
-    <div>likes: {blog.likes}</div>
-    <div>url: {blog.url}</div>
+    <div className='title'>title: {blog.title}</div>
+    <div className='author'>author: {blog.author}</div>
+    <div className='likes'>likes: {blog.likes}</div>
+    <div className='url'>url: {blog.url}</div>
   </>
 }
 
@@ -88,4 +89,4 @@ const BlogList = ({ user, showMessage }) => {
   </>
 }
 
-export default BlogList
+export { BlogList, Blog }
