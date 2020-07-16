@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { vote, initial } from '../reducers/anecdoteReducer'
-import { info } from '../reducers/notificationReducer'
-import anecdoteService from '../servicies/anecdoteService'
 import Filter from './Filter'
 
 const AnecdoteList = () => {
@@ -14,17 +12,10 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
 
   const voreIt = (anecdote) => {
-    anecdoteService.voteById(anecdote).then((data) => {
-      dispatch(vote(data.id))
-      dispatch(info(`you voted '${data.content}'`))
-    })
+    dispatch(vote(anecdote))
   }
 
-  useEffect(() => {
-    anecdoteService.getAll().then((data) => {
-      dispatch(initial(data))
-    })
-  }, [dispatch])
+  useEffect(() => { dispatch(initial()) }, [dispatch])
 
   return (
     <>

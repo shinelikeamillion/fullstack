@@ -1,8 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createNew } from '../reducers/anecdoteReducer'
-import { info } from '../reducers/notificationReducer'
-import anecdoteService from '../servicies/anecdoteService'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -14,10 +12,8 @@ const AnecdoteForm = () => {
     // eslint-disable-next-line no-param-reassign
     event.target.new.value = ''
     const anecdote = { content, votes: 0 }
-    anecdoteService.createNew(anecdote).then((data) => {
-      dispatch(createNew(data))
-      dispatch(info(`you added '${data.content}'`))
-    })
+
+    dispatch(createNew(anecdote))
   }
 
   return (

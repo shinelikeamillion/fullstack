@@ -3,9 +3,16 @@ const initNotification = {
   message: '',
 }
 
+const dispatchAndClear = ({ type, message }, dur = 5000) => (dispatch) => {
+  dispatch({ type, message })
+  setTimeout(() => {
+    dispatch({ type: 'CLEAR', message })
+  }, dur)
+}
+
 const clear = () => ({ type: 'CLEAR' })
-const info = (message) => ({ type: 'INFO', message })
-const error = (message) => ({ type: 'ERROR', message })
+const info = (message, dur) => dispatchAndClear({ type: 'INFO', message }, dur)
+const error = (message, dur) => dispatchAndClear({ type: 'ERROR', message }, dur)
 
 const notificationReducer = (state = initNotification, action) => {
   switch (action.type) {

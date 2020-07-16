@@ -1,3 +1,6 @@
+import anecdoteService from '../servicies/anecdoteService'
+import { info } from './notificationReducer'
+
 const reducer = (state = [], action) => {
   switch (action.type) {
   case 'VOTE': {
@@ -18,6 +21,18 @@ const reducer = (state = [], action) => {
 }
 
 export default reducer
-export const vote = (id) => ({ type: 'VOTE', data: { id } })
-export const initial = (data) => ({ type: 'INITIAL', data })
-export const createNew = (newOne) => ({ type: 'CREATE', data: newOne })
+export const vote = (anecdote) => async (dispatch) => {
+  const data = await anecdoteService.voteById(anecdote)
+  dispatch({ type: 'VOTE', data })
+  dispatch(info(`you voted '${data.content}'`, 300))
+}
+
+export const initial = () => async (dispatch) => {
+  const data = await anecdoteService.getAll()
+  dispatch({ type: 'INITIAL', data })
+}
+export const createNew = (anecdote) => async (dispatch) => {
+  const data = await anecdoteService.createNew(anecdote)
+  dispatch({ type: 'CREATE', data })
+  dispatch(info(`you added '${data.content}'`))
+}
