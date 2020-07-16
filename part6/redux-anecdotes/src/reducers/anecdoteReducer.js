@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
   }
   case 'CREATE': {
     const newOne = action.data
-    return [...state.anecdotes, newOne]
+    return [...state, newOne]
   }
   default: return state
   }

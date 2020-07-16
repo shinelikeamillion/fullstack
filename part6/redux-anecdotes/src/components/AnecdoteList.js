@@ -1,22 +1,25 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { vote } from '../reducers/anecdoteReducer'
-import { filter } from '../reducers/filterReducer'
+import { info } from '../reducers/notificationReducer'
+import Filter from './Filter'
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(
     (state) => state.anecdotes
-      .filter((anecdote) => (state.filter === 'ALL' ? anecdote : anecdote.content.includes(state.filter)))
+      .filter((anecdote) => (state.filter === 'ALL' || anecdote.content.includes(state.filter)))
       .sort((first, second) => second.votes - first.votes),
   )
   const dispatch = useDispatch()
 
+  const voreIt = (anecdote) => {
+    dispatch(vote(anecdote.id))
+    dispatch(info(`you voted '${anecdote.content}'`))
+  }
+
   return (
     <>
-      <div>
-        <div>Filter:</div>
-        <input onChange={(e) => { dispatch(filter(e.target.value)) }} />
-      </div>
+      <Filter />
       {
         anecdotes.map((anecdote) => (
           <div key={anecdote.id}>
@@ -24,8 +27,8 @@ const AnecdoteList = () => {
               {anecdote.content}
             </div>
             <div>
-              {`has ${anecdote.votes}`}
-              <button type="button" onClick={() => { dispatch(vote(anecdote.id)) }}>vote</button>
+              {`has ${anecdote.votes} `}
+              <button type="button" onClick={() => { voreIt(anecdote) }}>vote</button>
             </div>
           </div>
         ))
