@@ -36,7 +36,6 @@ const reducer = (state = initialState, action) => {
 export default reducer
 export const vote = (id) => ({ type: 'VOTE', data: { id } })
 export const createNew = (content) => {
-  if (!content) return
   const anecdote = asObject(content)
   return { type: 'CREATE', data: anecdote }
 }
