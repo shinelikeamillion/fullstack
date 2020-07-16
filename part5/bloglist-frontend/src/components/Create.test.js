@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
-import { prettyDOM, getByText, waitForDomChange, waitFor, } from '@testing-library/dom'
+import { getByText, waitFor, } from '@testing-library/dom'
 import Create from '../components/Create'
 import axios from 'axios'
 import { act } from 'react-dom/test-utils'

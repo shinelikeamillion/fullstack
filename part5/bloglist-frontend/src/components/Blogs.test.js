@@ -1,7 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
-import { prettyDOM, waitForDomChange, waitFor } from '@testing-library/dom'
+import { prettyDOM, waitFor } from '@testing-library/dom'
 import { Blog } from './Blog'
 import axios from 'axios'
 
@@ -14,18 +14,17 @@ const blog = {
   likes: 1,
 }
 
+const other = {
+  showMessage:() => {},
+  updateBlog:() => {},
+  deleteBlog:() => {}
+}
+
 describe('<Blog/>', () => {
   let component
-  let mockHandler
 
   beforeEach(() => {
-    mockHandler = jest.fn()
-    component = render(
-      <Blog blog={blog}
-        showMessage={mockHandler}
-        updateBlog={mockHandler}
-        deleteBlog={mockHandler}/>
-    )
+    component = render(<Blog blog={blog} {...other}/> )
   })
 
   test('should render content', () => {
@@ -36,8 +35,8 @@ describe('<Blog/>', () => {
     expect(component.container).toHaveTextContent( blog.likes)
 
     // component.debug()
-    const li =component.container.querySelector('li')
-    console.log(prettyDOM(li))
+    // const li =component.container.querySelector('li')
+    // console.log(prettyDOM(li))
     expect(component.getByText(`${blog.title}`)).toBeDefined()
 
     expect(component.container.querySelector('.blog')).toHaveTextContent(`${blog.title} -- ${blog.author}`)
@@ -77,12 +76,13 @@ describe('<Blog/>', () => {
 
   test('should updateBlog function be called twice, if the like button was cliked twice', async () => {
 
+    other.updateBlog = jest.fn()
+    component = render(<Blog blog={blog} {...other}/> )
+
     axios.put.mockResolvedValue({ data: { ...blog, likes:blog.likes+1 } })
     const likeBtn = component.container.querySelector('#likeBtn')
     fireEvent.click(likeBtn)
     fireEvent.click(likeBtn)
-    await waitFor(() => expect(mockHandler.mock.calls).toHaveLength(4))
-    expect(mockHandler.mock.calls[0][0].likes).toBe(blog.likes+1)
-    expect(mockHandler.mock.calls[2][0].likes).toBe(blog.likes+1)
+    await waitFor(() => expect(other.updateBlog.mock.calls).toHaveLength(2))
   })
 })
