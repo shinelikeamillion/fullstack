@@ -3,9 +3,11 @@ const initNotification = {
   message: '',
 }
 
+let timerId = 0
 const dispatchAndClear = ({ type, message }, dur = 5000) => (dispatch) => {
   dispatch({ type, message })
-  setTimeout(() => {
+  clearTimeout(timerId)
+  timerId = setTimeout(() => {
     dispatch({ type: 'CLEAR', message })
   }, dur)
 }
