@@ -24,7 +24,7 @@ export default reducer
 export const vote = (anecdote) => async (dispatch) => {
   const data = await anecdoteService.voteById(anecdote)
   dispatch({ type: 'VOTE', data })
-  dispatch(info(`you voted '${data.content}'`, 300))
+  dispatch(info(`you voted '${data.content}'`, 1000))
 }
 
 export const initial = () => async (dispatch) => {
