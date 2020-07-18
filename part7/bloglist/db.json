@@ -1,0 +1,44 @@
+{
+  "login": {
+    "username": "Panda1",
+    "password": "panda_no_1"
+  },
+  "blogs": [
+    {
+      "title": "If it hurts, do it more often",
+      "author": "unknown",
+      "id": "47145",
+      "likes": 39
+    },
+    {
+      "title": "Adding manpower to a late software project makes it later!",
+      "author": "unknown",
+      "id": "21149",
+      "likes": 9
+    },
+    {
+      "title": "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+      "author": "unknown",
+      "id": "69581",
+      "likes": 2
+    },
+    {
+      "title": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+      "author": "unknown",
+      "id": "36975",
+      "likes": 1
+    },
+    {
+      "title": "Premature optimization is the root of all evil.",
+      "author": "unknown",
+      "id": "25170",
+      "likes": 10
+    },
+    {
+      "title": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+      "author": "unknown",
+      "id": "98312",
+      "likes": 1
+    }
+  ]
+}
