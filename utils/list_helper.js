@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const { isNull } = require('lodash')
 const Blog = require('../models/blog')
 
 const dummy = (blogs) => 1
@@ -11,14 +10,15 @@ const totalLikes = (blogs) => (blogs.length > 0
 const favoriteReducer = (pre, cur) => (pre.likes >= cur.likes ? pre : cur)
 const favoriteBlog = (blogs) => (blogs.length > 0 ? blogs.reduce(favoriteReducer) : null)
 
-const groupBy = (array, k) => array.reduce(
-  (pre, cur) => {
-    const key = cur[k]
-    if (!pre.get(key)) pre.set(key, [])
-    pre.get(key).push(cur)
-    return pre
-  }, new Map(),
-)
+
+// const groupBy = (array, k) => array.reduce(
+//   (pre, cur) => {
+//     const key = cur[k]
+//     if (!pre.get(key)) pre.set(key, [])
+//     pre.get(key).push(cur)
+//     return pre
+//   }, new Map(),
+// )
 
 // const mostBlogs = (blogs) => {
 //   if (!blogs.length) return null

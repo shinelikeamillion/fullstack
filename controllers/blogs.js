@@ -2,25 +2,13 @@ const blogRouter = require('express').Router()
 require('express-async-errors')
 const jwt = require('jsonwebtoken')
 const Blog = require('../models/blog')
+const Comment = require('../models/comment')
 const User = require('../models/user')
-
-/*
-✅ 4.16: add new user feature: username and password is required, and both minlength is 3
-    if the userinfo is invalid, response proper error message
-✅ 4.17: post blog with (random in dbbase) user info
-    blogs list userinfo
-    users list with blogs
-✅ 4.18: token authentication
-✅ 4.19: add blog with user token, and set blog's user with this user
-✅ 4.20: add Authorization middleware
-✅ 4.21: only the user who post the blog can delete it
-✅ 4.22: fix add new blog with user token;
-    test post blog failed with proper 401 statuecode
-*/
 
 blogRouter.get('/', async (_, res) => {
   const blogs = await Blog.find({})
     .populate('user', { username: 1, name: 1 })
+    .populate('comments', { content: 1})
   res.json(blogs)
 })
 
@@ -97,8 +85,32 @@ blogRouter.post('/', async (req, res) => {
     user.blogs = user.blogs.concat(savedBlog._id.toString())
     await user.save()
     res.json(savedBlog)
+  } else {
+    res.status(404).send({ message: 'user not found' })
   }
-  res.status(404).send({ message: 'user not found' })
+})
+
+blogRouter.post('/:id/comments', async (req, res) => {
+  const blogId = req.params.id
+  const { body, token } = req
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!token || !decodedToken.id) {
+    res.status(401).json({ message: 'token missing or invalid' })
+    return
+  }
+  const blog = await Blog.findById(blogId)
+  if (blog) {
+    const comment = new Comment({
+      content: body.content,
+      blogId: blog.id
+    })
+    const savedComment = await comment.save()
+    blog.comments = blog.comments.concat(savedComment._id.toString())
+    await blog.save()
+    res.json(savedComment)
+  } else {
+    res.status(404).send({ message: 'blog not found' })
+  }
 })
 
 module.exports = blogRouter
