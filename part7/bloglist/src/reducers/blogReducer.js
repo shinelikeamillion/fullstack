@@ -12,6 +12,11 @@ export const blogReducer = (state = [], action) => {
     const newBlog = action.data
     return [...state, newBlog]
   }
+  case 'ADD_COMMENT': {
+    const comment = action.data
+    return state.map(blog =>
+      blog.id === comment.blogId ? { ...blog, comments: [...blog.comments, comment] } : blog)
+  }
   case 'GET_ALL': return [...action.data]
   default: return state
   }
@@ -43,6 +48,13 @@ export const create = (blog) => async dispatch => {
     .then(data => {
       dispatch({ type: 'CREATE', data })
     })
+    .catch(err => dispatch(error(err.response.data.message)))
+}
+
+export const addComment = (id, content) => async dispatch => {
+  blogService
+    .comment(id, content)
+    .then( comment => dispatch({ type: 'ADD_COMMENT', data: comment }))
     .catch(err => dispatch(error(err.response.data.message)))
 }
 

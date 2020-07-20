@@ -1,22 +1,34 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BlogList } from './components/Blog'
+import { BlogList, BlogDetail } from './components/Blog'
 import Login from './components/Login'
 import Notification from './components/Notification'
-import { initUser, logout } from './reducers/userReducer'
+import { Users, User } from './components/Users'
+import { ActionBar } from './components/ActionBar'
+import { initUser } from './reducers/userReducer'
+import { getAll } from './reducers/blogReducer'
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 const App = () => {
-  const user = useSelector(state => state.user)
-
   const dispatch = useDispatch()
   useEffect(() => { dispatch(initUser()) }, [dispatch])
+  useEffect(() => { dispatch(getAll())}, [dispatch])
+
+  const user = useSelector(state => state.user)
 
   return (
     <>
-      <h1>Blogs</h1>
+      <ActionBar/>
       <Notification />
-      {user && <p>{user.username} logged in <button onClick={() => {dispatch(logout())}}>logout</button></p>}
-      {user ? <BlogList user={user} /> : <Login /> }
+      <Switch>
+        <Route path='/login' render={
+          () => user? <Redirect to='/'/> : <Login/>
+        }/>
+        <Route path='/users/:name'><User/></Route>
+        <Route path='/users'><Users/></Route>
+        <Route path='/blogs/:id'><BlogDetail /></Route>
+        <Route path='/'><BlogList /></Route>
+      </Switch>
     </>
   )
 }

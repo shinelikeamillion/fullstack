@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useFild } from '../hooks/hooks'
 import { create } from '../reducers/blogReducer'
+import { Button, InputGroup, FormControl } from 'react-bootstrap'
 
 const Create = ({ toggleForm }) => {
   const dispatch = useDispatch()
@@ -17,26 +18,25 @@ const Create = ({ toggleForm }) => {
   }
 
   return < form onSubmit={createOne} >
-    <table>
-      <tbody>
-        <tr>
-          <td>title: </td>
-          <td><input {...title}/>
-          </td>
-        </tr>
-        <tr>
-          <td>author: </td>
-          <td><input {...author}/>
-          </td>
-        </tr>
-        <tr>
-          <td>url: </td>
-          <td><input {...url}/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button id="create" type="submit">create</button>
+    <InputGroup className='mb-3'>
+      <FormControl
+        placeholder="Title"
+        {...title}
+      />
+    </InputGroup>
+    <InputGroup className='mb-3'>
+      <FormControl
+        placeholder="Author"
+        {...author}
+      />
+    </InputGroup>
+    <InputGroup className='mb-3'>
+      <FormControl
+        placeholder="URL"
+        {...url}
+      />
+    </InputGroup>
+    <Button id="create" type="submit">create</Button>
   </form >
 }
 

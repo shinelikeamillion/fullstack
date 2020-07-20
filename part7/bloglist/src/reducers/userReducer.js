@@ -10,19 +10,17 @@ export const userReducer = (state = null , action) => {
     blogService.setToken(user.token)
     return user
   }
-  case 'LOGINOUT':
-    localStorage.removeItem(KEY_LOGGED_USER)
-    return null
+  case 'LOGINOUT': return null
   default: return state
   }
 }
 export const initUser = () => async dispatch => {
   const loggerUserJson = localStorage.getItem(KEY_LOGGED_USER)
-  if(loggerUserJson) dispatch({ type: 'LOGIN', data: JSON.stringify(loggerUserJson) })
+  if(loggerUserJson) dispatch({ type: 'LOGIN', data:  JSON.parse(loggerUserJson) })
 }
 export const login = (user) => async dispatch => {
   const data = await userService.login(user)
-  localStorage.setItem(KEY_LOGGED_USER, data)
+  localStorage.setItem(KEY_LOGGED_USER, JSON.stringify(data))
   dispatch({ type: 'LOGIN', data })
 }
 

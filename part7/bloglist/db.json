@@ -1,18 +1,18 @@
 {
   "login": {
-    "username": "Panda1",
-    "password": "panda_no_1"
+    "username": "wqeresww",
+    "password": "fsdfsss"
   },
   "blogs": [
     {
       "title": "If it hurts, do it more often",
       "author": "unknown",
       "id": "47145",
-      "likes": 39
+      "likes": 40
     },
     {
       "title": "Adding manpower to a late software project makes it later!",
-      "author": "unknown",
+      "author": "周树人",
       "id": "21149",
       "likes": 9
     },
@@ -36,7 +36,7 @@
     },
     {
       "title": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
-      "author": "unknown",
+      "author": "鲁迅",
       "id": "98312",
       "likes": 1
     }

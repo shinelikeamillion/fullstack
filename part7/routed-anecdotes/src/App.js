@@ -26,8 +26,6 @@ const initState = [
 const App = () => {
   const [anecdotes, setAnecdotes] = useState(initState)
 
-  // const [notification, setNotification] = useState('')
-
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -35,17 +33,6 @@ const App = () => {
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
-
-  // const vote = (id) => {
-  //   const anecdote = anecdoteById(id)
-
-  //   const voted = {
-  //     ...anecdote,
-  //     votes: anecdote.votes + 1
-  //   }
-
-  //   setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
-  // }
 
   const match = useRouteMatch('/anecdotes/:id')
   const anecdote = match ? anecdoteById(match.params.id) : null
