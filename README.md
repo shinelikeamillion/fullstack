@@ -18,7 +18,15 @@ fullstack training course from
     * [phonebook_backend](../../tree/phonebook_backend)
 * [part4](../../tree/phonebook_backend)
     * [phonebook_backend](../../tree/phonebook_backend)
-* [part5](../part5)
-    * [bloglist_frontend](/part5/bloglist-frontend)
+* [part5](/part5)
+    * [bloglist-frontend](/part5/bloglist-frontend)
+* [part6](/part6)
+    * [redux-anecdotes](/part6/redux-anecdotes)
+    * [unicafe-redux](/part6/unicafe-redux)
+* [part7](/part7)
+    * [bloglist](/part7/bloglist)
+    * [country-hook](/part7/country-hook)
+    * [routed-anecdotes](/part7/routed-anecdotes)
+    * [ultimate-hooks](/part7/ultimate-hooks)
 
 
