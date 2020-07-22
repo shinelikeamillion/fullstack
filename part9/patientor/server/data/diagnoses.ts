@@ -1,6 +1,6 @@
-import {DialognoseEntry} from '../entries/types';
+import {Dialognose} from '../entries/types';
 
-export const disgnoses: Array<DialognoseEntry> = [
+export const disgnoses: Array<Dialognose> = [
 
   {
     "code": "M24.2",

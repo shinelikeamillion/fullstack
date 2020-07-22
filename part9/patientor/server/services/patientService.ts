@@ -1,5 +1,5 @@
 import { patients } from '../data/patients';
-import { NonSensitiveEntries, PatientEntry, NewPatientEntrie } from '../entries/types';
+import { NonSensitiveEntries, Patient, NewPatientEntrie } from '../entries/types';
 
 const getNonSensitiveEntries = (): NonSensitiveEntries[] =>
   patients
@@ -7,12 +7,12 @@ const getNonSensitiveEntries = (): NonSensitiveEntries[] =>
     ({ id, name, gender, occupation, dateOfBirth }))
     : [];
 
-const findById = (id: string): PatientEntry | undefined => patients.find(patient => patient.id === Number(id));
+const findById = (id: string): Patient | undefined => patients.find(patient => patient.id === id);
 
-const addEntry = (newEntry: NewPatientEntrie): PatientEntry => {
+const addEntry = (newEntry: NewPatientEntrie): Patient => {
 
   const newPatient = {
-    id: Math.max(...patients.map(p => p.id)) + 1,
+    id: (Math.max(...patients.map(p => Number(p.id))) + 1).toString(),
     ...newEntry
   };
   patients.push(newPatient);

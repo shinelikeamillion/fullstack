@@ -1,16 +1,21 @@
-export interface DialognoseEntry {
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Entry {}
+
+export interface Dialognose {
   code: string
   name: string
   latin?: string
 } 
 
-export interface PatientEntry {
-    id: number
+export interface Patient {
+    id: string
     name: string
     dateOfBirth: string
     ssn: string
     gender: string
     occupation: string
+    entries: Entry[]
 } 
 
 export enum Gender {
@@ -19,6 +24,6 @@ export enum Gender {
   OTHER = 'other',
 }
 
-export type NonSensitiveEntries = Omit<PatientEntry, 'ssn'>;
+export type NonSensitiveEntries = Omit<Patient, 'ssn' | 'entries'>;
 
-export type NewPatientEntrie = Omit<PatientEntry, 'id'>;
+export type NewPatientEntrie = Omit<Patient, 'id'>;

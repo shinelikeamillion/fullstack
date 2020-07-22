@@ -1,6 +1,7 @@
 import {NewPatientEntrie, Gender} from '../entries/types';
 
 const toNewPatientEntry = (object: any): NewPatientEntrie => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const {name, gender, ssn, occupation, dateOfBirth} = object;
   const newEntry: NewPatientEntrie = {
     name: parseString(name) , 
@@ -18,13 +19,13 @@ const isString = (text: any): text is string => {
 
 const parseString = (text: any): string => {
   if(!text || !isString(text)) {
-    throw new Error(`Incorrect or missing name: ${text}`);
+    throw new Error(`Incorrect or missing name: ${JSON.stringify(text)}`);
   }
   return text;
 };
 const parseGender = (gender: any): string => {
   if(!gender || !isGender(gender)) {
-    throw new Error('Incorrect or missing name: '+gender);
+    throw new Error(`Incorrect or missing name: ${JSON.stringify(gender)}`);
   }
   return gender;
 };
