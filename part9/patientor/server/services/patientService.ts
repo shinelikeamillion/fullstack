@@ -1,4 +1,5 @@
 import { patients } from '../data/patients';
+import { disgnoses } from '../data/diagnoses';
 import { NonSensitiveEntries, Patient, NewPatientEntrie } from '../entries/types';
 
 const getNonSensitiveEntries = (): NonSensitiveEntries[] =>
@@ -8,6 +9,8 @@ const getNonSensitiveEntries = (): NonSensitiveEntries[] =>
     : [];
 
 const findById = (id: string): Patient | undefined => patients.find(patient => patient.id === id);
+
+const getDiagnosis = (diagnoCodes: string[]) => disgnoses.filter(dis => diagnoCodes.includes(dis.code));
 
 const addEntry = (newEntry: NewPatientEntrie): Patient => {
 
@@ -19,4 +22,4 @@ const addEntry = (newEntry: NewPatientEntrie): Patient => {
   return newPatient;
 };
 
-export default { getNonSensitiveEntries, findById, addEntry};
+export default { getNonSensitiveEntries, findById, addEntry, getDiagnosis};
