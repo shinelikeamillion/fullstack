@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "build": "webpack --mode=production",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node server/util/dataReader.js"
   },
   "engines": {
     "node": ">=10.15"
@@ -36,6 +36,7 @@
     "fibers": "^4.0.2",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "lodash": "^4.17.19",
     "mini-css-extract-plugin": "^0.9.0",
     "module-alias": "^2.2.2",
     "react": "^16.12.0",
