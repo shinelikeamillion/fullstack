@@ -14,19 +14,19 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3,
 }
 
-interface HealthCheckEntry extends BaseEntry {
-  type: "HealthCheck"
+export interface HealthCheckEntry extends BaseEntry {
+  type: CheckType.HealthCheck
   healthCheckRating: HealthCheckRating
 }
 
-interface OccupationalHealthcareEntry extends BaseEntry {
-  type: "OccupationalHealthcare"
+export interface OccupationalHealthcareEntry extends BaseEntry {
+  type: CheckType.OccupationalHealthcare
   sickLeave?: SickLevelEntry
   employerName: string
 }
 
-interface HospitalEntry extends BaseEntry {
-  type: "Hospital"
+export interface HospitalEntry extends BaseEntry {
+  type: CheckType.Hospital
   discharge?: Discharge
 }
 
@@ -60,6 +60,12 @@ export enum Gender {
   Male = 'male',
   Female = 'female',
   Other = 'other',
+}
+
+export enum CheckType {
+  Hospital = 'Hospital',
+  OccupationalHealthcare = 'OccupationalHealthcare',
+  HealthCheck = 'HealthCheck',
 }
 
 export type NonSensitiveEntries = Omit<Patient, 'ssn' | 'entries'>;

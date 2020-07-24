@@ -1,4 +1,4 @@
-﻿省,省确诊,省治愈,省死亡,市,新增确诊,新增治愈,新增死亡,确诊,治愈,死亡,日期
+﻿province,province_infected,province_recovered,province_deaths,city,increasing_infected,increase_recovered,increase_deaths,city_infected,city_recovered,city_deaths,date
 湖北省,549,31,24,武汉,495.0,31.0,23.0,495.0,31.0,23.0,2020-01-23
 湖北省,549,31,24,孝感,22.0,0.0,0.0,22.0,0.0,0.0,2020-01-23
 湖北省,549,31,24,黄冈,12.0,0.0,0.0,12.0,0.0,0.0,2020-01-23

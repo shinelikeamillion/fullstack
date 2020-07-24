@@ -9,9 +9,9 @@ const _ = require('lodash')
  目标：省,省确诊,省治愈,省死亡,市,新增确诊,新增治愈,新增死亡,确诊,治愈,死亡,日期
  to: [
    省: {
-     确诊
-     治愈
-     死亡
+     省确诊
+     省治愈
+     省死亡
      市: [
        市: {
          确诊
@@ -51,14 +51,14 @@ const getLastCases = async () => {
     const groupByProvince = _(mapedData).groupBy(headers[0])
     const result = {}
     _(groupByProvince).forEach((list, key) => {
-      const saved = _(list[0]).pick([headers[1], headers[2], headers[3], headers[11]]).value()
+      const saved = _(list[0]).pick([headers[0], headers[1], headers[2], headers[3], headers[11]]).value()
 
       const grouped = _(list)
         .map((item) => _(item)
-          .pick([headers[4], headers[5], headers[6], headers[7], headers[8], headers[9], headers[10], headers[11]]).value())
+          .pick([headers[4], headers[5], headers[6], headers[7], headers[8], headers[9], headers[10]]).value())
         .groupBy(headers[4]).value()
 
-      result[key] = { ...saved, 市: { ...grouped } }
+      result[key] = { ...saved, ...grouped }
     })
     return result
   })

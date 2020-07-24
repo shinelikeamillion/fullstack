@@ -9,10 +9,13 @@ module.exports = (env, argv) => {
     ? []
     : [new webpack.HotModuleReplacementPlugin()] // Enable hot module replacement
 
-  const additionalEntries = mode === 'production' ? [] : ['webpack-hot-middleware/client?http://localhost:8000']
+  const additionalEntries = mode === 'production' ? [] : ['webpack-hot-middleware/client?http://localhost:3001']
 
   return {
     mode,
+    externals: {
+      BMap: 'BMap',
+    },
     entry: [
       '@babel/polyfill', // so we don't need to import it anywhere
       './client',
