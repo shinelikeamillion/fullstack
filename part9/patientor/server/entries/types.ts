@@ -1,6 +1,4 @@
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-
 export interface BaseEntry {
   id: string,
   description: string,
@@ -32,12 +30,12 @@ interface HospitalEntry extends BaseEntry {
   discharge?: Discharge
 }
 
-interface SickLevelEntry {
+export interface SickLevelEntry {
   startDate: string
   endDate: string
 }
 
-interface Discharge {
+export interface Discharge {
   date: string,
   criteria: string
 }
@@ -46,17 +44,17 @@ export interface Dialognose {
   code: string
   name: string
   latin?: string
-} 
+}
 
 export interface Patient {
-    id: string
-    name: string
-    dateOfBirth: string
-    ssn: string
-    gender: string
-    occupation: string
-    entries: Entry[]
-} 
+  id: string
+  name: string
+  dateOfBirth: string
+  ssn: string
+  gender: Gender
+  occupation: string
+  entries: Entry[]
+}
 
 export enum Gender {
   Male = 'male',

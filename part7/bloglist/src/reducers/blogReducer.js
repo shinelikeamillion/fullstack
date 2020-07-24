@@ -33,7 +33,7 @@ export const like = (blog) => async dispatch => {
 }
 
 export const deleteById = (blog) => async dispatch => {
-  await blogService
+  blogService
     .deleteById(blog.id)
     .then(_ => {
       dispatch({ type: 'DELETE', data:blog })
@@ -43,7 +43,7 @@ export const deleteById = (blog) => async dispatch => {
 }
 
 export const create = (blog) => async dispatch => {
-  await blogService
+  blogService
     .create(blog)
     .then(data => {
       dispatch({ type: 'CREATE', data })
