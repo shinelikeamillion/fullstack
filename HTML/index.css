@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.grid-continer div {
+  border: 1px solid red;
+  text-align: center;
+}
+
+.align-start {align-self: start;}
+.align-center {align-self: center;}
+.align-end {align-self: end;}
+.justify-start {justify-self: start;}
+.justify-center {justify-self: center;}
+.justify-end {justify-self: end;}
+
+.grid-continer {
+  margin: 2% 1% 0 1%;
+  display: grid;
+  height: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 2%;
+  grid-row-gap: 2%;
+}
