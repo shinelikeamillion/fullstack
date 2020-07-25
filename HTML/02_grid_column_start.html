@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .grid-continer div {
+      border: 1px solid red;
+      text-align: center;
+    }
+
+    .text {
+      grid-column-start: 3;
+      grid-column-end: 4;
+    }
+
+    .grid-continer {
+      margin: 2% 1% 0 1%;
+      display: grid;
+      height: 100%;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-column-gap: 2%;
+      grid-row-gap: 2%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid-continer">
+    <div>1</div>
+    <div>2</div>
+    <div class="text">
+      Placing Elements in the Grid
+      O.K., grids are great, but they are invisible unless there is content in them. To ensure grids appear on the page,
+      we need to place elements in each grid track. Grid will implicitly place items. But we want to learn how to
+      explicitly place items for clearer control. There are two approaches to this.
+      One approach is to identify the grid lines in which an element should live. Since tracks are the space between
+      lines, this approach specifies the tracks the element will live in. For example, if we wanted to place an element
+      in the third column track, we would tell CSS Grid that the element starts at the third grid line and ends at the
+      last grid line. This would look something like:
+    </div>
+  </div>
+</body>
+
+</html>
