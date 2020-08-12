@@ -12,6 +12,9 @@ const User = require("./models/user");
 const config = require("./utils/config");
 const jwt = require("jsonwebtoken");
 
+const { PubSub } = require("apollo-server");
+const pubsub = new PubSub();
+
 /**
  * 所有查询和修改
  * 处理数据库验证错误
@@ -30,6 +33,8 @@ mongoose
     console.log("error connection to MongoDB", error.message);
   });
 
+mongoose.set("useCreateIndex", true);
+
 // load data
 // (async function () {
 //   await Promise.all(
@@ -40,17 +45,22 @@ mongoose
 // })();
 
 const typeDefs = gql`
+  type Subscription {
+    bookAdded: Book!
+  }
+
   type Author {
     id: String!
     name: String!
     born: Int
+    books: [Book]
     bookCount: Int!
   }
 
   type Book {
     id: String!
     title: String!
-    author: String!
+    author: Author!
     genres: [String]!
     published: Int!
   }
@@ -105,7 +115,7 @@ const resolvers = {
       }
       return books;
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: () => Author.find({}).populate("books"),
     findAuthor: (root, args) => Author.findOne({ name: args.name }),
     findBook: (root, args) => Book.findOne({ title: args.title }),
     me: (root, args, context) => {
@@ -113,9 +123,7 @@ const resolvers = {
     },
   },
   Author: {
-    bookCount: async (root) => {
-      return (await Book.find({ author: root.id })).length;
-    },
+    bookCount: (root) => root.books.length,
   },
   Mutation: {
     addBook: async (root, args, context) => {
@@ -132,7 +140,7 @@ const resolvers = {
         try {
           await author.save();
         } catch (e) {
-          throw new UserInputError("couldn't create new author");
+          throw new UserInputError(e.message);
         }
       }
       const book = new Book({ ...args, id: uuid(), author: author._id });
@@ -143,7 +151,11 @@ const resolvers = {
           invalidArgs: args,
         });
       }
-      return book;
+      const savedBook = book.populate("author").execPopulate();
+
+      pubsub.publish("BOOK_ADDED", { bookAdded: savedBook });
+
+      return savedBook;
     },
     editAuthor: async (root, args, context) => {
       const currentUser = context.currentUser;
@@ -154,15 +166,15 @@ const resolvers = {
 
       const author = await Author.findOne({ name: args.name });
       if (!author) return null;
-      const updatedAuthor = new Author({ ...author, born: args.setBornTo });
+      author.born = args.setBornTo;
       try {
-        await updatedAuthor.save();
+        await author.save();
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
         });
       }
-      return updatedAuthor;
+      return author;
     },
     createUser: (root, args) => {
       const user = new User({ username: args.username });
@@ -185,6 +197,11 @@ const resolvers = {
       return { value: jwt.sign(userForToken, config.SECRET) };
     },
   },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(["BOOK_ADDED"]),
+    },
+  },
 };
 
 const server = new ApolloServer({
@@ -200,6 +217,7 @@ const server = new ApolloServer({
   },
 });
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`);
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`);
 });

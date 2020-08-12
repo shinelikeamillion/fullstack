@@ -19,7 +19,7 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(uniqueValidator, {
-  message: "This boo already exists",
+  message: "This book already exists",
 });
 
 module.exports = mongoose.model("Book", schema);

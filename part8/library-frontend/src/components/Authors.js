@@ -9,6 +9,9 @@ const Authors = (props) => {
   const { loading, data } = useQuery(ALL_AUTHORS);
   const [updateAuthor] = useMutation(UPDATE_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
+    onError: (error) => {
+      props.setError(error.graphQLErrors[0].message);
+    },
   });
 
   if (!props.show) {
@@ -21,9 +24,10 @@ const Authors = (props) => {
 
   const authors = data.allAuthors ?? [];
 
+  console.log(authors);
+
   const submit = async (event) => {
     event.preventDefault();
-    console.log(name, born);
     updateAuthor({
       variables: { name, born: Number(born) },
     });
