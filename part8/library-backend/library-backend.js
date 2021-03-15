@@ -15,12 +15,6 @@ const jwt = require("jsonwebtoken");
 const { PubSub } = require("apollo-server");
 const pubsub = new PubSub();
 
-/**
- * 所有查询和修改
- * 处理数据库验证错误
- * 添加用户管理（favoriteGenre, token, query, create, login）
- */
-
 const MONGODB_URI = config.DB_URI;
 console.log("connecting to ", MONGODB_URI);
 
