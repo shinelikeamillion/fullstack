@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calender</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #data {
+        width: 280px;
+        border: 1px solid #000000;
+        margin: 20px auto;
+      }
+      #data > p {
+        display: flex;
+      }
+      #data > h5 {
+        text-align: center;
+      }
+      #data > p > span {
+        padding: 0 10px;
+      }
+      #prev,
+      #next {
+        cursor: pointer;
+      }
+      #year {
+        flex: 1;
+        text-align: center;
+      }
+      #title {
+        overflow: hidden;
+        list-style: none;
+        background: #ccc;
+      }
+      #title > li {
+        float: left;
+        width: 40px;
+        height: 26px;
+        line-height: 26px;
+        text-align: center;
+      }
+      #date {
+        overflow: hidden;
+        list-style: none;
+      }
+      #days > li {
+        float: left;
+        width: 34px;
+        margin: 1px 1px;
+        border: 2px solid rgba(0, 0, 0, 0);
+        line-height: 34px;
+        list-style: none;
+        text-align: center;
+        cursor: pointer;
+      }
+      #days > :hover {
+        border: 2px solid red;
+      }
+      #days .active {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="data">
+      <p>
+        <span id="prev">上一月</span>
+        <span id="year">1947</span>
+        <span id="next">下一月</span>
+      </p>
+      <h5 id="month">五月</h5>
+      <ul id="title">
+        <li>日</li>
+        <li>一</li>
+        <li>二</li>
+        <li>三</li>
+        <li>四</li>
+        <li>五</li>
+        <li>六</li>
+      </ul>
+      <div id="days"></div>
+    </div>
+    <script>
+      let date = new Date();
+      add();
+      function add() {
+        let tody = new Date();
+        let year = date.getFullYear();
+        const months = [
+          "一月",
+          "二月",
+          "三月",
+          "四月",
+          "五月",
+          "六月",
+          "七月",
+          "八月",
+          "九月",
+          "十月",
+          "十一月",
+          "十二月",
+        ];
+        let month = date.getMonth();
+        let day = date.getDate();
+
+        let days = "";
+        let firstDayOfWeek = new Date(year, month, 1).getDay();
+        let firstDayOfMonth = new Date(year, month + 1, -1).getDate();
+
+        for (let i = 0; i < firstDayOfWeek; i++) {
+          days += "<li></li>";
+        }
+
+        for (let i = 1; i <= firstDayOfMonth; i++) {
+          days += `<li class=${
+            date.getFullYear() === tody.getFullYear() &&
+            date.getMonth() === tody.getMonth() &&
+            tody.getDate() === i
+              ? "active"
+              : ""
+          }>${i}</li>`;
+        }
+
+        document.getElementById("year").innerHTML = year;
+        document.getElementById("month").innerHTML = months[month];
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("prev").onclick = function () {
+          date.setMonth(date.getMonth() - 1);
+          add();
+        };
+        document.getElementById("next").onclick = function () {
+          date.setMonth(date.getMonth() + 1);
+          add();
+        };
+      }
+    </script>
+  </body>
+</html>

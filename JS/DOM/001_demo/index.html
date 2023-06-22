@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="styles/layout.css" media="screen"/>
+  </head>
+  <body>
+    <h1>Snapshots</h1>
+    <ul>
+      <li><a href="images/A.jpg" title="A" onclick="showPic(this); return false" >A</a></li>
+      <li><a href="images/B.png" title="B" onclick="showPic(this); return false" >B</a></li>
+      <li><a href="images/C.png" title="C" onclick="showPic(this); return false" >C</a></li>
+      <li><a href="" title="C1" className="popup" >C1(popup)</a></li>
+    </ul>
+    <img height="100" id="placeholder" src="images/A.jpg"/>
+
+    <p id="description">A</p>
+    <script>
+
+      window.onload = () => {
+        nodes =  document.getElementsByTagName("body")[0].childNodes
+        console.log(nodes.length +' nodes loaded.')
+        nodes.forEach(o => {
+          if(o.nodeType == 1)
+            console.log(o)
+        });
+
+        let links = document.getElementsByTagName('a')
+        for (let index = 0; index < links.length; index++) {
+          var link = links[index]
+          if (link.getAttribute("className") == "popup") {
+            link.onclick = () => {
+              const title = link.getAttribute("title")
+              popUp('images/'+title+'.png')
+              return fasle;
+            }
+          }
+        }
+
+      }
+
+      const popUp = (url) => {
+        window.open(url, "popup") // 默认打开新标签
+
+        // window.open(url, "popup", "width=320, height=400")
+      }
+
+      const showPic = (a) => {
+        const source = a.getAttribute("href")
+        const placeholder = document.getElementById("placeholder")
+        placeholder.setAttribute("src", source)
+
+        const title = a.getAttribute("title")
+        const description = document.getElementById("description")
+        description.firstChild.nodeValue = title
+      }
+    </script>
+  </body>
+</html>
