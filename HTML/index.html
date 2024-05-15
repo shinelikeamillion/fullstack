@@ -1,80 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="index.css" />
-    <style>
-      /* body {
-        perspective: 0px;
-      } */
-      .parent {
-        position: relative;
-        width: 200px;
-        height: 200px;
-        margin: 100px auto;
-        transform-style: preserve-3d;
-        animation: sping 6s infinite ease-in-out;
-      }
-      @keyframes sping {
-        from {
-          transform: rotate3d(0, 1, 0, 0deg);
-        }
-        to {
-          transform: rotate3d(1, 0, 1, 360deg);
-        }
-      }
-      .parent .child {
-        width: 200px;
-        height: 200px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        border: 2px solid red;
-        /* background-color: transparent; */
-        /* animation: transZ 10s infinite linear; */
-      }
-      /* @keyframes transZ {
-        from {
-          transform: translateZ(100px);
-        }
-        to {
-          transform: translateZ(120px);
-        }
-      } */
-      .one {
-        background-color: #2fe63946;
-        transform: rotateY(0deg) translateZ(120px);
-      }
-      .two {
-        background-color: #2ff1faee;
-        transform: rotateX(90deg) translateZ(120px);
-      }
-      .three {
-        background-color: #2fa8dadc;
-        transform: rotateX(180deg) translateZ(120px);
-      }
-      .four {
-        background-color: #2f457b9d;
-        transform: rotateX(270deg) translateZ(120px);
-      }
-      .five {
-        background-color: #2f1d3557;
-        transform: rotateY(90deg) translateZ(120px);
-      }
-      .six {
-        background-color: #2f390099;
-        transform: rotateY(-90deg) translateZ(120px);
-      }
-    </style>
-  </head>
+    <script>
+      window.onload = function () {
+        var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext("2d");
 
+        context.lineWidth = 2;
+        context.strokeStyle = "#0096FF"; // blue-ish color
+        context.beginPath();
+
+        step = 0.5;
+        N = 200;
+        stepA = Math.PI / N;
+
+        for (var n = N; n >= 0; n--) {
+          var radius = step * n;
+          var angle = stepA * n;
+          var x = canvas.width / 2 + radius * Math.cos(angle);
+          var y = canvas.height / 2 + radius * Math.sin(angle);
+          context.lineTo(x, y);
+        }
+
+        for (var n = 0; n <= N; n++) {
+          var radius = step * n;
+          var angle = stepA * n;
+          var x = canvas.width / 2 + radius * Math.cos(Math.PI - angle);
+          var y = canvas.height / 2 + radius * Math.sin(-angle);
+          context.lineTo(x, y);
+        }
+
+        context.stroke();
+      };
+    </script>
+  </head>
   <body>
-    <div class="parent">
-      <div class="child one"></div>
-      <div class="child two"></div>
-      <div class="child three"></div>
-      <div class="child four"></div>
-      <div class="child five"></div>
-      <div class="child six"></div>
-    </div>
+    <canvas
+      id="myCanvas"
+      width="600"
+      height="250"
+      style="border: 1px solid black"
+    >
+    </canvas>
   </body>
 </html>
